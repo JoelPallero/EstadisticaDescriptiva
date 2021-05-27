@@ -1,5 +1,14 @@
 # EstadisticaDescriptiva
 Calculardora para estadistica descriptiva
+ Funciones:
+ * Parametros de centralizacion: - Mediana
+                                 - Media
+                                 - Moda
+ * Varianza
+ * Desviación Típica
+ * Percentil
+ * Quartil
+ * Decil
 
 Para ingresar los datos, hay que hacerlo de manera manual en el 1er datagridview (cuando lo ejecutes).
 Luego apretar el botón para ordenarlos en el otro DGV y el resto se maneja con los check.
