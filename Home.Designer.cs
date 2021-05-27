@@ -69,6 +69,7 @@ namespace EstadisticaDescriptiva
             this.lblEne = new System.Windows.Forms.Label();
             this.txtEne = new System.Windows.Forms.TextBox();
             this.dgvColeccion = new System.Windows.Forms.DataGridView();
+            this.intervalo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.equis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frecuenciaAbs = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frecuenciaAbsAcum = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -94,6 +95,8 @@ namespace EstadisticaDescriptiva
             this.lblDecil = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnBidimensional = new System.Windows.Forms.CheckBox();
+            this.chkCompuesto = new System.Windows.Forms.CheckBox();
+            this.chkSimple = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
@@ -208,9 +211,9 @@ namespace EstadisticaDescriptiva
             // btnCalcularOrdenar
             // 
             this.btnCalcularOrdenar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCalcularOrdenar.Location = new System.Drawing.Point(801, 12);
+            this.btnCalcularOrdenar.Location = new System.Drawing.Point(886, 12);
             this.btnCalcularOrdenar.Name = "btnCalcularOrdenar";
-            this.btnCalcularOrdenar.Size = new System.Drawing.Size(271, 67);
+            this.btnCalcularOrdenar.Size = new System.Drawing.Size(186, 67);
             this.btnCalcularOrdenar.TabIndex = 1;
             this.btnCalcularOrdenar.Text = "Ordenar";
             this.btnCalcularOrdenar.UseVisualStyleBackColor = true;
@@ -485,9 +488,11 @@ namespace EstadisticaDescriptiva
             // 
             // dgvColeccion
             // 
+            this.dgvColeccion.AllowUserToDeleteRows = false;
             this.dgvColeccion.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvColeccion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColeccion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.intervalo,
             this.equis,
             this.frecuenciaAbs,
             this.frecuenciaAbsAcum,
@@ -495,11 +500,17 @@ namespace EstadisticaDescriptiva
             this.equisal2porefe});
             this.dgvColeccion.Location = new System.Drawing.Point(545, 94);
             this.dgvColeccion.Name = "dgvColeccion";
-            this.dgvColeccion.ReadOnly = true;
             this.dgvColeccion.RowHeadersVisible = false;
             this.dgvColeccion.RowHeadersWidth = 51;
             this.dgvColeccion.Size = new System.Drawing.Size(527, 508);
             this.dgvColeccion.TabIndex = 32;
+            // 
+            // intervalo
+            // 
+            this.intervalo.HeaderText = "Intervalo";
+            this.intervalo.MinimumWidth = 6;
+            this.intervalo.Name = "intervalo";
+            this.intervalo.Width = 125;
             // 
             // equis
             // 
@@ -507,7 +518,6 @@ namespace EstadisticaDescriptiva
             this.equis.HeaderText = "x";
             this.equis.MinimumWidth = 6;
             this.equis.Name = "equis";
-            this.equis.ReadOnly = true;
             this.equis.Width = 60;
             // 
             // frecuenciaAbs
@@ -516,7 +526,6 @@ namespace EstadisticaDescriptiva
             this.frecuenciaAbs.HeaderText = "f";
             this.frecuenciaAbs.MinimumWidth = 6;
             this.frecuenciaAbs.Name = "frecuenciaAbs";
-            this.frecuenciaAbs.ReadOnly = true;
             this.frecuenciaAbs.Width = 60;
             // 
             // frecuenciaAbsAcum
@@ -525,7 +534,6 @@ namespace EstadisticaDescriptiva
             this.frecuenciaAbsAcum.HeaderText = "F";
             this.frecuenciaAbsAcum.MinimumWidth = 6;
             this.frecuenciaAbsAcum.Name = "frecuenciaAbsAcum";
-            this.frecuenciaAbsAcum.ReadOnly = true;
             this.frecuenciaAbsAcum.Width = 60;
             // 
             // equisporefe
@@ -534,7 +542,6 @@ namespace EstadisticaDescriptiva
             this.equisporefe.HeaderText = "x * f";
             this.equisporefe.MinimumWidth = 6;
             this.equisporefe.Name = "equisporefe";
-            this.equisporefe.ReadOnly = true;
             this.equisporefe.Width = 80;
             // 
             // equisal2porefe
@@ -543,11 +550,12 @@ namespace EstadisticaDescriptiva
             this.equisal2porefe.HeaderText = "x2 . f";
             this.equisal2porefe.MinimumWidth = 6;
             this.equisal2porefe.Name = "equisal2porefe";
-            this.equisal2porefe.ReadOnly = true;
             this.equisal2porefe.Width = 80;
             // 
             // dgvBidimensional
             // 
+            this.dgvBidimensional.AllowUserToAddRows = false;
+            this.dgvBidimensional.AllowUserToDeleteRows = false;
             this.dgvBidimensional.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvBidimensional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBidimensional.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -717,24 +725,47 @@ namespace EstadisticaDescriptiva
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnBidimensional);
-            this.groupBox1.Enabled = false;
+            this.groupBox1.Controls.Add(this.chkCompuesto);
+            this.groupBox1.Controls.Add(this.chkSimple);
             this.groupBox1.Location = new System.Drawing.Point(545, 10);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(221, 69);
+            this.groupBox1.Size = new System.Drawing.Size(335, 69);
             this.groupBox1.TabIndex = 49;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Estadistica Bidimensional";
+            this.groupBox1.Text = "Calculos";
             // 
             // btnBidimensional
             // 
             this.btnBidimensional.AutoSize = true;
-            this.btnBidimensional.Location = new System.Drawing.Point(12, 32);
+            this.btnBidimensional.Location = new System.Drawing.Point(208, 32);
             this.btnBidimensional.Name = "btnBidimensional";
-            this.btnBidimensional.Size = new System.Drawing.Size(77, 24);
-            this.btnBidimensional.TabIndex = 50;
-            this.btnBidimensional.Text = "Activar";
+            this.btnBidimensional.Size = new System.Drawing.Size(125, 24);
+            this.btnBidimensional.TabIndex = 52;
+            this.btnBidimensional.Text = "Bidimensional";
             this.btnBidimensional.UseVisualStyleBackColor = true;
             this.btnBidimensional.CheckedChanged += new System.EventHandler(this.btnBidimensional_CheckedChanged);
+            // 
+            // chkCompuesto
+            // 
+            this.chkCompuesto.AutoSize = true;
+            this.chkCompuesto.Location = new System.Drawing.Point(95, 31);
+            this.chkCompuesto.Name = "chkCompuesto";
+            this.chkCompuesto.Size = new System.Drawing.Size(107, 24);
+            this.chkCompuesto.TabIndex = 51;
+            this.chkCompuesto.Text = "Compuesto";
+            this.chkCompuesto.UseVisualStyleBackColor = true;
+            this.chkCompuesto.CheckedChanged += new System.EventHandler(this.chkCompuesto_CheckedChanged);
+            // 
+            // chkSimple
+            // 
+            this.chkSimple.AutoSize = true;
+            this.chkSimple.Location = new System.Drawing.Point(12, 32);
+            this.chkSimple.Name = "chkSimple";
+            this.chkSimple.Size = new System.Drawing.Size(77, 24);
+            this.chkSimple.TabIndex = 50;
+            this.chkSimple.Text = "Simple";
+            this.chkSimple.UseVisualStyleBackColor = true;
+            this.chkSimple.CheckedChanged += new System.EventHandler(this.chkSimple_CheckedChanged);
             // 
             // Home
             // 
@@ -772,7 +803,6 @@ namespace EstadisticaDescriptiva
             this.Controls.Add(this.txtDesviacionTipica);
             this.Controls.Add(this.txtVarianza);
             this.Controls.Add(this.txtMedia);
-            this.Controls.Add(this.btnRegresion);
             this.Controls.Add(this.btnCovarianza);
             this.Controls.Add(this.btnTipica);
             this.Controls.Add(this.btnVarianza);
@@ -783,8 +813,9 @@ namespace EstadisticaDescriptiva
             this.Controls.Add(this.txtMediana);
             this.Controls.Add(this.btnCalcularOrdenar);
             this.Controls.Add(this.dgvDatos);
-            this.Controls.Add(this.dgvBidimensional);
+            this.Controls.Add(this.btnRegresion);
             this.Controls.Add(this.dgvColeccion);
+            this.Controls.Add(this.dgvBidimensional);
             this.Name = "Home";
             this.Text = "Calculadora";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).EndInit();
@@ -799,7 +830,6 @@ namespace EstadisticaDescriptiva
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvDatoInicial;
         private System.Windows.Forms.Button btnCalcularOrdenar;
         private System.Windows.Forms.TextBox txtCantidadIntervalos;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
@@ -849,11 +879,6 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.DataGridView dgvDatos;
         private System.Windows.Forms.TextBox txtMediana;
         private System.Windows.Forms.TextBox txtMedia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn equis;
-        private System.Windows.Forms.DataGridViewTextBoxColumn frecuenciaAbs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn frecuenciaAbsAcum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn equisporefe;
-        private System.Windows.Forms.DataGridViewTextBoxColumn equisal2porefe;
         private System.Windows.Forms.TextBox txtModa;
         private System.Windows.Forms.TextBox txtPercentil;
         private System.Windows.Forms.TextBox txtQuartil;
@@ -867,6 +892,14 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblQuartil;
         private System.Windows.Forms.Label lblDecil;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox chkSimple;
+        private System.Windows.Forms.CheckBox chkCompuesto;
         private System.Windows.Forms.CheckBox btnBidimensional;
+        private System.Windows.Forms.DataGridViewTextBoxColumn intervalo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn equis;
+        private System.Windows.Forms.DataGridViewTextBoxColumn frecuenciaAbs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn frecuenciaAbsAcum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn equisporefe;
+        private System.Windows.Forms.DataGridViewTextBoxColumn equisal2porefe;
     }
 }

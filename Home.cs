@@ -38,74 +38,99 @@ namespace EstadisticaDescriptiva
         double covarianza = 0;
         double coefcorrelacion = 0;
 
+        int calculo;
+
         #endregion
 
         #region Metodos
 
         private void OrdenarDatos()
         {
-            HabilitarCheks();
-            coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-            coleccionX = dgvDatos.Columns.Count;
-
-            for (int i = 0; i < coleccionY; i++)
+            switch (calculo)
             {
-                for (int j = 0; j < coleccionX; j++)
-                {
-                    //Acá cuento los datos para ir ordenando.
-                    coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+                case 0:
 
-                    if (coleccionDato > mayor)
+                    #region Unidemiensional intervalo simple
+                    HabilitarCheks();
+                    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+                    coleccionX = dgvDatos.Columns.Count;
+
+                    for (int i = 0; i < coleccionY; i++)
                     {
-                        //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
-                        mayor = coleccionDato;
+                        for (int j = 0; j < coleccionX; j++)
+                        {
+                            //Acá cuento los datos para ir ordenando.
+                            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                            if (coleccionDato > mayor)
+                            {
+                                //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
+                                mayor = coleccionDato;
+                            }
+                        }
                     }
-                }
+
+                    dgvColeccion.RowCount = mayor;
+                    mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
+                    FrecuenciaAbsoluta();
+                    #endregion
+
+                    break;
+                case 1:
+
+                    #region Intervalos compuestos
+
+
+
+                    #endregion
+
+                    break;
+                case 2:
+
+                    #region Bidimensional
+                    //if (!btnBidimensional.Checked)
+                    //{
+                    //    HabilitarCheks();
+                    //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+                    //    coleccionX = dgvDatos.Columns.Count;
+
+                    //    for (int i = 0; i < coleccionY; i++)
+                    //    {
+                    //        for (int j = 0; j < coleccionX; j++)
+                    //        {
+                    //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                    //            if (coleccionDato > mayor)
+                    //            {
+                    //                mayor = coleccionDato;
+                    //            }
+                    //        }
+                    //    }
+
+                    //    dgvColeccion.RowCount = mayor - 3;
+                    //    mayor++;
+                    //    FrecuenciaAbsoluta();
+                    //}
+                    //else
+                    //{
+                    //    HabilitarChkBid();
+                    //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+                    //    coleccionX = dgvDatos.Columns.Count;
+
+                    //    for (int j = 0; j < coleccionX; j++)
+                    //    {
+                    //        for (int i = 0; i < coleccionY; i++)
+                    //        {
+                    //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+                    //            dgvBidimensional.Rows[j].Cells[i].Value = coleccionDato.ToString();
+                    //        }
+                    //        dgvBidimensional.Rows.Add();
+                    //    }
+                    //}
+                    #endregion
+
+                    break;
             }
-
-            dgvColeccion.RowCount = mayor - 3;
-            mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
-            FrecuenciaAbsoluta();
-
-            //if (!btnBidimensional.Checked)
-            //{
-            //    HabilitarCheks();
-            //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-            //    coleccionX = dgvDatos.Columns.Count;
-
-            //    for (int i = 0; i < coleccionY; i++)
-            //    {
-            //        for (int j = 0; j < coleccionX; j++)
-            //        {
-            //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-            //            if (coleccionDato > mayor)
-            //            {
-            //                mayor = coleccionDato;
-            //            }
-            //        }
-            //    }
-
-            //    dgvColeccion.RowCount = mayor - 3;
-            //    mayor++;
-            //    FrecuenciaAbsoluta();
-            //}
-            //else
-            //{
-            //    HabilitarChkBid();
-            //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-            //    coleccionX = dgvDatos.Columns.Count;
-
-            //    for (int j = 0; j < coleccionX; j++)
-            //    {
-            //        for (int i = 0; i < coleccionY; i++)
-            //        {
-            //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-            //            dgvBidimensional.Rows[j].Cells[i].Value = coleccionDato.ToString();
-            //        }
-            //        dgvBidimensional.Rows.Add();
-            //    }
-            //}
         }
 
         private void FrecuenciaAbsoluta()
@@ -127,8 +152,8 @@ namespace EstadisticaDescriptiva
                 //agregar este dato en el otro dgv
                 // y al lado su repeticion
 
-                dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol].Value = contador.ToString();
-                dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol + 1].Value = repetidor.ToString();
+                dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
+                dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
                 dgvColeccion.Rows.Add();
                 //sumatoria de las frecuencias
                 N += repetidor;
@@ -140,7 +165,7 @@ namespace EstadisticaDescriptiva
             coleccionX = 0;
             coleccionDato = 0;
             txtEne.Text = N.ToString();
-            dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol + 1].Value = N.ToString();
+            dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
             ordenadorRow = 0;
             FrecuenciaAcumulada();
         }
@@ -164,13 +189,13 @@ namespace EstadisticaDescriptiva
             int i = 0;
             do
             {
-                comparacionFrecAcum = Convert.ToDouble(dgvColeccion.Rows[i].Cells[2].Value);
+                comparacionFrecAcum = Convert.ToDouble(dgvColeccion.Rows[i].Cells[3].Value);
                 PartialMe = comparacionFrecAcum - mediana;
                 i++;
             } while (PartialMe < 0);
 
-            mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[0].Value);
-            mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[0].Value);
+            mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[1].Value);
+            mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
             mediana = mediana / 2;
         }
 
@@ -182,13 +207,13 @@ namespace EstadisticaDescriptiva
             {
                 if (ordenadorRow == 0)
                 {
-                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = dgvColeccion.Rows[ordenadorRow].Cells[1].Value;
+                    dgvColeccion.Rows[ordenadorRow].Cells[3].Value = dgvColeccion.Rows[ordenadorRow].Cells[2].Value;
                 }
                 else
                 {
-                    reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[2].Value);
-                    reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[1].Value);
-                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = (reemplazo + reemplazo2).ToString();
+                    reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[3].Value);
+                    reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[2].Value);
+                    dgvColeccion.Rows[ordenadorRow].Cells[3].Value = (reemplazo + reemplazo2).ToString();
                 }
                 ordenadorRow++;
             }
@@ -202,18 +227,18 @@ namespace EstadisticaDescriptiva
             int resSumatoria = 0;
             for (int i = 0; i < mayor; i++)
             {
-                for (int j = 0; j < 1; j++)
+                for (int j = 1; j < 2; j++)
                 {
                     resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
-                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);
+                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
                     resAcum = resAcum * resMulti; //Esto es la multiplicación x por f. A cada variable le asigno un dato y multiplico
                     resSumatoria += resAcum; //Acá está la sumatoria
-                    dgvColeccion.Rows[i].Cells[3].Value = resAcum.ToString(); //y acá muestro el resultado
+                    dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString(); //y acá muestro el resultado
                     resMulti = 0;
                     resAcum = 0;
                 }
             }
-            dgvColeccion.Rows[mayor].Cells[3].Value = resSumatoria.ToString();
+            dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
 
             mediaX = resSumatoria / N;
             txtMedia.Text = mediaX.ToString("N3");
@@ -233,11 +258,11 @@ namespace EstadisticaDescriptiva
                     //(por eso el 1 porque ese N° no cambia es la misma columna)
                     //esta variable la inicio en 0 y voy comparando si el dato que veo de la frec
                     //es mayor.
-                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value); 
+                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value); 
                     if (frecuenciaModa > moda) //Si la frecuencia que voy viendo es mayor que el N° que tengo almacenada en "moda"
                     {
                         moda = frecuenciaModa; // entonces lo reemplazo.
-                        datoModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[0].Value); //y me guardo el dato x de esa fila.
+                        datoModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value); //y me guardo el dato x de esa fila.
                     }
                 }                
             }                           //dato x                                                   //frecuencia
@@ -251,18 +276,18 @@ namespace EstadisticaDescriptiva
             int resSumatoria = 0;
             for (int i = 0; i < mayor; i++)
             {
-                for (int j = 0; j < 1; j++)
+                for (int j = 1; j < 2; j++)
                 {
                     resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value); //Esto es x de cada fila
-                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);  //Esto es f de cada fila
+                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);  //Esto es f de cada fila
                     resAcum = (resMulti * resMulti) * resAcum;  //Acá está x al cuadrado por f
                     resSumatoria += resAcum; //Esto es la sumatora de x al cuadrado por f
-                    dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString();
+                    dgvColeccion.Rows[i].Cells[5].Value = resAcum.ToString();
                     resMulti = 0;
                     resAcum = 0;
                 }
             }
-            dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
+            dgvColeccion.Rows[mayor].Cells[5].Value = resSumatoria.ToString();
 
             varianza = (resSumatoria / N) - (mediaX * mediaX); //es un tema hacer potencias acá así que solo la multiplicamos así.
 
@@ -367,7 +392,7 @@ namespace EstadisticaDescriptiva
 
         private void HabilitarBidimension() //Al igual que acá, es mucho reseteo de controles, pero se puede hacer esto:
         {                                   //Seccionar ciertos controles en un groupbox, y luego recoorerlos con un foreach
-            if (!btnBidimensional.Checked)  //y así ir escondiendolos o mostrandolos, dependiendo de cada sección
+            if (!chkSimple.Checked)  //y así ir escondiendolos o mostrandolos, dependiendo de cada sección
             {                               // solo que yo no tenía ganas de hacer eso xq ya había hecho todo
                 dgvBidimensional.Visible = false; //Pero si hacemos eso, luego en los eventos de cada checkbox tenemos que 
                 dgvColeccion.Visible = true;      //asignarle el respectivo checked_change y ese era el viaje xD
@@ -463,6 +488,11 @@ namespace EstadisticaDescriptiva
                 OrdenarDatos();
                 btnCalcularOrdenar.Text = "Limpiar";
             }
+        }
+
+        private void HabilitarCompuestos()
+        {
+            dgvDatos.Enabled = false;
         }
 
         #endregion
@@ -577,6 +607,36 @@ namespace EstadisticaDescriptiva
             HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
         }
 
-        #endregion        
+        #endregion
+
+        private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkCompuesto.Checked)
+            {
+                chkSimple.Enabled = true;
+                chkSimple.Checked = true;
+                btnBidimensional.Checked = false;
+                btnBidimensional.Enabled = true;
+                calculo = 0; //conesto vamos a switchear entre las 3 opciones de cálculos.
+                dgvDatos.Enabled = true;
+            }
+            else
+            {
+                chkSimple.Enabled = false;
+                chkSimple.Checked = false;
+                btnBidimensional.Checked = false;
+                btnBidimensional.Enabled = false;
+                HabilitarCompuestos();
+                calculo = 1;
+                dgvDatos.Enabled = false;
+                OrdenarDatos();
+            }
+
+        }
+
+        private void chkSimple_CheckedChanged(object sender, EventArgs e)
+        {
+            calculo = 0;
+        }
     }
 }
