@@ -1,0 +1,582 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace EstadisticaDescriptiva
+{
+    public partial class Home : Form
+    {
+        ParametroCentralizacion parametroCentralizacion = new ParametroCentralizacion();
+
+        public Home()
+        {
+            InitializeComponent();
+        }
+
+        #region Variables
+
+        int ordenadorCol = 0;
+        int ordenadorRow = 0;
+        int contador = 0;
+        int repetidor = 0;
+        int mayor = 0;
+        int coleccionDato = 0;
+        int coleccionY = 0;
+        int coleccionX = 0;
+        double N = 0;
+        double comparacionFrecAcum = 0;
+        double mediana = 0;
+        double PartialMe = 0;
+        double mediaX = 0;
+        double mediaY= 0;
+        double desviacionTipica = 0;
+        double varianza = 0;
+        
+        double covarianza = 0;
+        double coefcorrelacion = 0;
+
+        #endregion
+
+        #region Metodos
+
+        private void OrdenarDatos()
+        {
+            HabilitarCheks();
+            coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+            coleccionX = dgvDatos.Columns.Count;
+
+            for (int i = 0; i < coleccionY; i++)
+            {
+                for (int j = 0; j < coleccionX; j++)
+                {
+                    coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                    if (coleccionDato > mayor)
+                    {
+                        mayor = coleccionDato;
+                    }
+                }
+            }
+
+            dgvColeccion.RowCount = mayor - 3;
+            mayor++;
+            FrecuenciaAbsoluta();
+
+            //if (!btnBidimensional.Checked)
+            //{
+            //    HabilitarCheks();
+            //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+            //    coleccionX = dgvDatos.Columns.Count;
+
+            //    for (int i = 0; i < coleccionY; i++)
+            //    {
+            //        for (int j = 0; j < coleccionX; j++)
+            //        {
+            //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+            //            if (coleccionDato > mayor)
+            //            {
+            //                mayor = coleccionDato;
+            //            }
+            //        }
+            //    }
+
+            //    dgvColeccion.RowCount = mayor - 3;
+            //    mayor++;
+            //    FrecuenciaAbsoluta();
+            //}
+            //else
+            //{
+            //    HabilitarChkBid();
+            //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+            //    coleccionX = dgvDatos.Columns.Count;
+
+            //    for (int j = 0; j < coleccionX; j++)
+            //    {
+            //        for (int i = 0; i < coleccionY; i++)
+            //        {
+            //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+            //            dgvBidimensional.Rows[j].Cells[i].Value = coleccionDato.ToString();
+            //        }
+            //        dgvBidimensional.Rows.Add();
+            //    }
+            //}
+        }
+
+        private void FrecuenciaAbsoluta()
+        {
+            for (int x = 0; contador < mayor; x++)
+            {
+                for (int i = 0; i < coleccionY; i++)
+                {
+                    for (int j = 0; j < coleccionX; j++)
+                    {
+                        coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                        if (contador == coleccionDato)
+                        {
+                            repetidor++;
+                        }
+                    }
+                }
+                //agregar este dato en el otro dgv
+                // y al lado su repeticion
+
+                dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol].Value = contador.ToString();
+                dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol + 1].Value = repetidor.ToString();
+                dgvColeccion.Rows.Add();
+                //sumatoria de las frecuencias
+                N += repetidor;
+                repetidor = 0;
+                contador++;
+                ordenadorRow++;
+            }
+            coleccionY = 0;
+            coleccionX = 0;
+            coleccionDato = 0;
+            txtEne.Text = N.ToString();
+            dgvColeccion.Rows[ordenadorRow].Cells[ordenadorCol + 1].Value = N.ToString();
+            ordenadorRow = 0;
+            FrecuenciaAcumulada();
+        }
+
+        private void Mediana()
+        {
+            if ((N % 2) == 0)
+            {
+                mediana = N / 2;
+            }
+            else
+            {
+                mediana = (N + 1) / 2;
+            }
+            CompararDatosMediana();
+            txtMediana.Text = mediana.ToString();
+        }
+
+        private void CompararDatosMediana()
+        {
+            int i = 0;
+            do
+            {
+                comparacionFrecAcum = Convert.ToDouble(dgvColeccion.Rows[i].Cells[2].Value);
+                PartialMe = comparacionFrecAcum - mediana;
+                i++;
+            } while (PartialMe < 0);
+
+            mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[0].Value);
+            mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[0].Value);
+            mediana = mediana / 2;
+        }
+
+        private void FrecuenciaAcumulada()
+        {
+            int reemplazo;
+            int reemplazo2;
+            for (int i = 0; i < mayor; i++)
+            {
+                if (ordenadorRow == 0)
+                {
+                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = dgvColeccion.Rows[ordenadorRow].Cells[1].Value;
+                }
+                else
+                {
+                    reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[2].Value);
+                    reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[1].Value);
+                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = (reemplazo + reemplazo2).ToString();
+                }
+                ordenadorRow++;
+            }
+            ordenadorRow = 0;
+        }
+
+        private void Media()
+        {
+            int resAcum = 0;
+            int resMulti = 0;
+            int resSumatoria = 0;
+            for (int i = 0; i < mayor; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
+                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);
+                    resAcum = resAcum * resMulti; //Esto es la multiplicación x por f. A cada variable le asigno un dato y multiplico
+                    resSumatoria += resAcum; //Acá está la sumatoria
+                    dgvColeccion.Rows[i].Cells[3].Value = resAcum.ToString(); //y acá muestro el resultado
+                    resMulti = 0;
+                    resAcum = 0;
+                }
+            }
+            dgvColeccion.Rows[mayor].Cells[3].Value = resSumatoria.ToString();
+
+            mediaX = resSumatoria / N;
+            txtMedia.Text = mediaX.ToString("N3");
+        }
+
+        private void Moda()
+        {
+            //El que se repite más veces
+            int frecuenciaModa = 0;
+            int datoModa = 0;
+            int moda = 0;
+            for (int i = 0; i < mayor; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    //Acá es sencillo. Reviso toda la columna de frecuencias
+                    //(por eso el 1 porque ese N° no cambia es la misma columna)
+                    //esta variable la inicio en 0 y voy comparando si el dato que veo de la frec
+                    //es mayor.
+                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value); 
+                    if (frecuenciaModa > moda) //Si la frecuencia que voy viendo es mayor que el N° que tengo almacenada en "moda"
+                    {
+                        moda = frecuenciaModa; // entonces lo reemplazo.
+                        datoModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[0].Value); //y me guardo el dato x de esa fila.
+                    }
+                }                
+            }                           //dato x                                                   //frecuencia
+            txtModa.Text = "El dato " + datoModa.ToString() + " tiene la mayor frecuencia con: " + moda.ToString();
+        }
+
+        private void Varianza()
+        {
+            int resAcum = 0;
+            int resMulti = 0;
+            int resSumatoria = 0;
+            for (int i = 0; i < mayor; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value); //Esto es x de cada fila
+                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);  //Esto es f de cada fila
+                    resAcum = (resMulti * resMulti) * resAcum;  //Acá está x al cuadrado por f
+                    resSumatoria += resAcum; //Esto es la sumatora de x al cuadrado por f
+                    dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString();
+                    resMulti = 0;
+                    resAcum = 0;
+                }
+            }
+            dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
+
+            varianza = (resSumatoria / N) - (mediaX * mediaX); //es un tema hacer potencias acá así que solo la multiplicamos así.
+
+            txtVarianza.Text = varianza.ToString("N3");
+        }
+        private void DesviacionTipica()
+        {
+            desviacionTipica = Math.Sqrt(varianza); //raíz cuadrada de la varianza
+            txtDesviacionTipica.Text = desviacionTipica.ToString("N3"); //Convierto a string pero le paso un parametro 
+        }                                                               //que es para tener un 3 decimales(N3) despues de la coma
+
+        private void Percentil()
+        {
+            double p = Convert.ToInt32(txtPercentil.Text);
+            txtPerRespuesta.Text = ((p * N) / 100).ToString();
+        }
+
+        private void Quartil()
+        {
+            int q = Convert.ToInt32(txtQuartil.Text);
+            txtQuarRespuesta.Text = ((q * N) / 4).ToString();
+        }
+
+        private void Decil()
+        {
+            int d = Convert.ToInt32(txtDecil.Text);
+            txtDecilRespuesta.Text = ((d * N) / 10).ToString();
+        }
+
+        private void Covarianza()
+        {
+
+        }
+
+        private void CoeficienteCorelacion()
+        {
+
+        }
+
+        #endregion
+
+        #region Configuraciones
+
+        private void HabilitarCheks()
+        {
+            //habilito los checkbox para poder hacer los calculos requeridos
+            btnMediana.Enabled = true;
+            btnMedia.Enabled = true;
+            btnModa.Enabled = true;
+        }
+
+        private void LimpiarDGV()
+        {
+            //limpio los dgv que se encuentren en todo el formulario
+            //Son 3, pero 1 está encima del otro, así que no se nota.
+            //Es con el que quiero hacer los cálculos de covarianza y eso.
+            foreach (var dgv in this.Controls.OfType<DataGridView>()) //declaro una variable y la nombro "dgv"
+            {                                                         //Y con el resto digo que así voy a llamar
+                dgv.Rows.Clear();                                     //A todos los dgv que hay en este control(form)
+                //y con esto le limpio todas las filas para que quede pelao..
+            }   //El mismo procedimiento se cumple con los otros foreach. Solo que voy cambiando los controles que quiero manejar
+        }
+
+        private void LimpiarTxt()
+        {
+            foreach (var txt in this.Controls.OfType<TextBox>()) //Acá son todos los textbox
+            {
+                txt.Text = string.Empty; //los vacío
+            }
+        }
+
+        private void LimpiarChk()
+        {
+            foreach (var chk in this.Controls.OfType<CheckBox>()) // acá los cheackbox
+            {
+                chk.Checked = false; //Les quito el check
+                chk.Enabled = false; //los inhabilito
+            }
+        }
+
+        private void ResetVariables() //Cero simplicidad pero practicidad para lo que necesito
+        {                             //que es resetear todas las variables.
+            ordenadorCol = 0;
+            ordenadorRow = 0;
+            contador = 0;
+            repetidor = 0;
+            mayor = 0;
+            coleccionDato = 0;
+            coleccionY = 0;
+            coleccionX = 0;
+            N = 0;
+            comparacionFrecAcum = 0;
+            mediana = 0;
+            PartialMe = 0;
+            mediaX = 0;
+            mediaY = 0;
+            desviacionTipica = 0;
+            varianza = 0;
+            covarianza = 0;
+            coefcorrelacion = 0;
+        }
+
+        private void HabilitarBidimension() //Al igual que acá, es mucho reseteo de controles, pero se puede hacer esto:
+        {                                   //Seccionar ciertos controles en un groupbox, y luego recoorerlos con un foreach
+            if (!btnBidimensional.Checked)  //y así ir escondiendolos o mostrandolos, dependiendo de cada sección
+            {                               // solo que yo no tenía ganas de hacer eso xq ya había hecho todo
+                dgvBidimensional.Visible = false; //Pero si hacemos eso, luego en los eventos de cada checkbox tenemos que 
+                dgvColeccion.Visible = true;      //asignarle el respectivo checked_change y ese era el viaje xD
+                txtMediana.Visible = true;
+                lblMediana.Visible = true;
+                txtMedia.Visible = true;
+                lblMedia.Visible = true;
+                txtModa.Visible = true;
+                lblModa.Visible = true;
+                txtEne.Visible = true;
+                lblEne.Visible = true;
+                txtVarianza.Visible = true;
+                lblVarianza.Visible = true;
+                txtDesviacionTipica.Visible = true;
+                lblTipica.Visible = true;
+                lblValor.Visible = true;
+                lblRespuesta.Visible = true;
+                lblPercentil.Visible = true;
+                txtPercentil.Visible = true;
+                txtPerRespuesta.Visible = true;
+                lblQuartil.Visible = true;
+                txtQuartil.Visible = true;
+                txtQuarRespuesta.Visible = true;
+                lblDecil.Visible = true;
+                txtDecil.Visible = true;
+                txtDecilRespuesta.Visible = true;
+
+                txtMediaX.Visible = false;
+                lblMediaX.Visible = false;
+                txtMediaY.Visible = false;
+                lblMediaY.Visible = false;
+                txtCovarianza.Visible = false;
+                lblCovarianza.Visible = false;
+                txtCoeficiente.Visible = false;
+                lblCoef.Visible = false;
+            }
+            else
+            {
+                dgvBidimensional.Visible = true;
+                dgvColeccion.Visible = false;
+                txtMediana.Visible = false;
+                lblMediana.Visible = false;
+                txtMedia.Visible = false;
+                lblMedia.Visible = false;
+                txtModa.Visible = false;
+                lblModa.Visible = false;
+                txtEne.Visible = false;
+                lblEne.Visible = false;
+                txtVarianza.Visible = false;
+                lblVarianza.Visible = false;
+                txtDesviacionTipica.Visible = false;
+                lblTipica.Visible = false;
+                lblValor.Visible = false;
+                lblRespuesta.Visible = false;
+                lblPercentil.Visible = false;
+                txtPercentil.Visible = false;
+                txtPerRespuesta.Visible = false;
+                lblQuartil.Visible = false;
+                txtQuartil.Visible = false;
+                txtQuarRespuesta.Visible = false;
+                lblDecil.Visible = false;
+                txtDecil.Visible = false;
+                txtDecilRespuesta.Visible = false;
+
+                txtMediaX.Visible = true;
+                lblMediaX.Visible = true;
+                txtMediaY.Visible = true;
+                lblMediaY.Visible = true;
+                txtCovarianza.Visible = true;
+                lblCovarianza.Visible = true;
+                txtCoeficiente.Visible = true;
+                lblCoef.Visible = true;
+            }
+        }
+
+        private void HabilitarChkBid() //Esto está pensado para los bidimensionales. Aún no se usa.
+        {
+            btnRegresion.Enabled = true;
+        }
+
+        private void checkeoButton() //Esto también es para cuando tenga ya la opción bidimensional. Por ahora no lo encapsulé.
+        {                            //solo lo dejé directamente en el evento click del boton
+            if (btnCalcularOrdenar.Text == "Limpiar")
+            {
+                ResetVariables();
+                LimpiarTxt();
+                LimpiarDGV();
+                LimpiarChk();
+                btnCalcularOrdenar.Text = "Agrupar";
+            }
+            else
+            {
+                OrdenarDatos();
+                btnCalcularOrdenar.Text = "Limpiar";
+            }
+        }
+
+        #endregion
+
+        #region Eventos
+
+        private void btnCalcularOrdenar_Click(object sender, EventArgs e)
+        {
+            //checkeoButton(); Cuando se quite el comentario, el método de abajo tiene que dejarse encapsulado en el metodo anterior.
+            if (btnCalcularOrdenar.Text == "Limpiar")
+            {
+                LimpiarDGV();
+                LimpiarTxt();
+                LimpiarChk();
+                ResetVariables();
+                btnCalcularOrdenar.Text = "Ordenar";
+            }
+            else
+            {
+                OrdenarDatos();
+                btnCalcularOrdenar.Text = "Limpiar";
+            }
+        }
+
+        private void btnMediana_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            if (!btnMediana.Checked)
+            {
+                txtMediana.Text = string.Empty;
+            }
+            else
+            {
+                Mediana(); //Acá llamo al método encapsulado para calcular la mediana
+            }
+        }
+
+        private void btnMedia_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!btnMedia.Checked)
+            {
+                btnVarianza.Enabled = false; //Para calcular la varianza si o si tiene que haber la media sacada primero
+                txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
+            }                                //y al txt de la Media se le quita el contenido.
+            else
+            {
+                Media();//Acá llamo al método encapsulado para calcular la media
+                btnVarianza.Enabled = true; //habilito el chk de la varianza
+            }
+        }
+
+        private void btnModa_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!btnModa.Checked) //el signo ! significa la negación: Si btnModa no esta con el check entonces ..
+            {
+                txtModa.Text = string.Empty;
+            }
+            else
+            {
+                //por si alguien ignoraba esta opción de VS.
+                Moda(); //llamo al método de la moda (Ctrl + click izquierdo) y los lleva al médoto en cuestión)
+            }
+        }           
+
+
+        private void btnVarianza_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!btnVarianza.Checked)
+            {
+                btnTipica.Enabled = false;   //Esto es lo mismo que con la media. Para calcular la tipica, tengo que tener la varianza
+                txtVarianza.Text = string.Empty; //sino la saqué, entonces no se habilita el chk de tipica
+                btnTipica.Checked = false;
+                txtDesviacionTipica.Text = string.Empty;
+            }
+            else
+            {
+                Varianza(); //si tiene la varianza, hacemos la misma
+                btnTipica.Enabled = true; // y habilitamos la tipica para calcularla.
+            }
+        }
+
+        private void btnTipica_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!btnTipica.Checked)
+            {
+                txtDesviacionTipica.Text = string.Empty;
+            }
+            else
+            {
+                DesviacionTipica(); //calculo la desv tipica.
+            }
+        }
+
+        //Estos 3 métodos siguientes, obviamente quie no los voy a explicar. (son una papa)
+        private void txtPercentil_Leave(object sender, EventArgs e)
+        {
+            Percentil();
+        }
+
+        private void txtQuartil_Leave(object sender, EventArgs e)
+        {
+            Quartil();
+        }
+
+        private void txtDecil_Leave(object sender, EventArgs e)
+        {
+            Decil();
+        }
+
+        private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
+        {
+            HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
+        }
+
+        #endregion        
+    }
+}
