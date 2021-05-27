@@ -11,8 +11,6 @@ namespace EstadisticaDescriptiva
 {
     public partial class Home : Form
     {
-        ParametroCentralizacion parametroCentralizacion = new ParametroCentralizacion();
-
         public Home()
         {
             InitializeComponent();
@@ -54,17 +52,19 @@ namespace EstadisticaDescriptiva
             {
                 for (int j = 0; j < coleccionX; j++)
                 {
+                    //Acá cuento los datos para ir ordenando.
                     coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
 
                     if (coleccionDato > mayor)
                     {
+                        //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
                         mayor = coleccionDato;
                     }
                 }
             }
 
             dgvColeccion.RowCount = mayor - 3;
-            mayor++;
+            mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
             FrecuenciaAbsoluta();
 
             //if (!btnBidimensional.Checked)
