@@ -17,7 +17,7 @@ namespace EstadisticaDescriptiva
         }
 
         #region Variables
-
+        bool empty = true;
         int ordenadorCol = 0;
         int ordenadorRow = 0;
         int contador = 0;
@@ -30,8 +30,9 @@ namespace EstadisticaDescriptiva
         double comparacionFrecAcum = 0;
         double mediana = 0;
         double PartialMe = 0;
-        double mediaX = 0;
+        double media = 0;
         double mediaY= 0;
+        double desviacionMedia = 0;
         double desviacionTipica = 0;
         double varianza = 0;
         
@@ -50,7 +51,7 @@ namespace EstadisticaDescriptiva
             {
                 case 0:
 
-                    #region Unidemiensional intervalo simple
+                    #region intervalo simple
                     HabilitarCheks();
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
                     coleccionX = dgvDatos.Columns.Count;
@@ -70,8 +71,8 @@ namespace EstadisticaDescriptiva
                         }
                     }
 
-                    dgvColeccion.RowCount = mayor;
                     mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
+                    dgvColeccion.Rows.Add(mayor);
                     FrecuenciaAbsoluta();
                     #endregion
 
@@ -154,7 +155,6 @@ namespace EstadisticaDescriptiva
 
                 dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
                 dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
-                dgvColeccion.Rows.Add();
                 //sumatoria de las frecuencias
                 N += repetidor;
                 repetidor = 0;
@@ -240,8 +240,8 @@ namespace EstadisticaDescriptiva
             }
             dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
 
-            mediaX = resSumatoria / N;
-            txtMedia.Text = mediaX.ToString("N3");
+            media = resSumatoria / N;
+            txtMedia.Text = media.ToString("N3");
         }
 
         private void Moda()
@@ -269,6 +269,34 @@ namespace EstadisticaDescriptiva
             txtModa.Text = "El dato " + datoModa.ToString() + " tiene la mayor frecuencia con: " + moda.ToString();
         }
 
+        private void DesviacionMedia()
+        {
+            //restar x a la media y luego multiplicar por f. La sumatoria se divide por N
+            double x = 0;
+            double f = 0;
+            double r = 0;
+            double sum = 0;
+            for (int i = 0; i < mayor; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    x = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
+                    f = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                    r = (x - media) * f;
+                    sum += r;
+                    dgvColeccion.Rows[i].Cells[6].Value = r.ToString("N2");
+                    x = 0;
+                    f = 0;
+                    r = 0;
+                }
+            }
+            dgvColeccion.Rows[mayor].Cells[6].Value = sum.ToString("N2");
+
+            desviacionMedia = (sum / N); //es un tema hacer potencias acá así que solo la multiplicamos así.
+
+            txtDesvMedia.Text = desviacionMedia.ToString("N2");
+        }
+
         private void Varianza()
         {
             int resAcum = 0;
@@ -289,7 +317,7 @@ namespace EstadisticaDescriptiva
             }
             dgvColeccion.Rows[mayor].Cells[5].Value = resSumatoria.ToString();
 
-            varianza = (resSumatoria / N) - (mediaX * mediaX); //es un tema hacer potencias acá así que solo la multiplicamos así.
+            varianza = (resSumatoria / N) - (media * media); //es un tema hacer potencias acá así que solo la multiplicamos así.
 
             txtVarianza.Text = varianza.ToString("N3");
         }
@@ -297,7 +325,13 @@ namespace EstadisticaDescriptiva
         {
             desviacionTipica = Math.Sqrt(varianza); //raíz cuadrada de la varianza
             txtDesviacionTipica.Text = desviacionTipica.ToString("N3"); //Convierto a string pero le paso un parametro 
-        }                                                               //que es para tener un 3 decimales(N3) despues de la coma
+        }                                                               //que es para tener 3 decimales(N3) despues de la coma
+
+        private void CoefVariacion()
+        {
+            txtCoefVariacion.Text = (desviacionTipica / media).ToString("N3");
+        }
+
 
         private void Percentil()
         {
@@ -325,6 +359,25 @@ namespace EstadisticaDescriptiva
         private void CoeficienteCorelacion()
         {
 
+        }
+
+        private void ChequearDGV()
+        {
+            if (dgvDatos.Rows.Count > 0 && chkSimple.Checked == true)
+            {
+                empty = false;
+            }
+            else
+            {
+                if (dgvColeccion.Rows.Count > 0 && chkCompuesto.Checked == true)
+                {
+                    empty = false;
+                }
+                else
+                {
+                    empty = true;
+                }
+            }
         }
 
         #endregion
@@ -382,12 +435,13 @@ namespace EstadisticaDescriptiva
             comparacionFrecAcum = 0;
             mediana = 0;
             PartialMe = 0;
-            mediaX = 0;
+            media = 0;
             mediaY = 0;
             desviacionTipica = 0;
             varianza = 0;
             covarianza = 0;
             coefcorrelacion = 0;
+            desviacionMedia = 0;
         }
 
         private void HabilitarBidimension() //Al igual que acá, es mucho reseteo de controles, pero se puede hacer esto:
@@ -495,6 +549,15 @@ namespace EstadisticaDescriptiva
             dgvDatos.Enabled = false;
         }
 
+        private void QuitarChecks()
+        {
+            foreach (var chk in gpdispersion.Controls.OfType<CheckBox>())
+            {
+                chk.Checked = false;
+                chk.Enabled = false;
+            }
+        }
+
         #endregion
 
         #region Eventos
@@ -502,19 +565,27 @@ namespace EstadisticaDescriptiva
         private void btnCalcularOrdenar_Click(object sender, EventArgs e)
         {
             //checkeoButton(); Cuando se quite el comentario, el método de abajo tiene que dejarse encapsulado en el metodo anterior.
-            if (btnCalcularOrdenar.Text == "Limpiar")
+            ChequearDGV();
+            if (empty)
             {
-                LimpiarDGV();
-                LimpiarTxt();
-                LimpiarChk();
-                ResetVariables();
-                btnCalcularOrdenar.Text = "Ordenar";
+                MessageBox.Show("No hay datos ingresados","Grillas vacías", MessageBoxButtons.OK);
             }
             else
             {
-                OrdenarDatos();
-                btnCalcularOrdenar.Text = "Limpiar";
-            }
+                if (btnCalcularOrdenar.Text == "Limpiar")
+                {
+                    LimpiarDGV();
+                    LimpiarTxt();
+                    LimpiarChk();
+                    ResetVariables();
+                    btnCalcularOrdenar.Text = "Obtener datos";
+                }
+                else
+                {
+                    OrdenarDatos();
+                    btnCalcularOrdenar.Text = "Limpiar";
+                }
+            }            
         }
 
         private void btnMediana_CheckedChanged(object sender, EventArgs e)
@@ -534,13 +605,16 @@ namespace EstadisticaDescriptiva
         {
             if (!btnMedia.Checked)
             {
-                btnVarianza.Enabled = false; //Para calcular la varianza si o si tiene que haber la media sacada primero
+                QuitarChecks();
+                txtVarianza.Text = string.Empty;
+                txtDesvMedia.Text = string.Empty;
                 txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
             }                                //y al txt de la Media se le quita el contenido.
             else
             {
                 Media();//Acá llamo al método encapsulado para calcular la media
                 btnVarianza.Enabled = true; //habilito el chk de la varianza
+                chkDesviacionMedia.Enabled = true;
             }
         }
 
@@ -579,9 +653,12 @@ namespace EstadisticaDescriptiva
             if (!btnTipica.Checked)
             {
                 txtDesviacionTipica.Text = string.Empty;
+                chkCoefVariación.Enabled = false;
+                txtCoefVariacion.Text = string.Empty;
             }
             else
             {
+                chkCoefVariación.Enabled = true;
                 DesviacionTipica(); //calculo la desv tipica.
             }
         }
@@ -637,6 +714,23 @@ namespace EstadisticaDescriptiva
         private void chkSimple_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 0;
+        }
+
+        private void chkDesviacionMedia_CheckedChanged(object sender, EventArgs e)
+        {
+            DesviacionMedia();
+        }
+
+        private void chkCoefVariación_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkDesviacionMedia.Checked)
+            {
+                txtCoefVariacion.Text = string.Empty;
+            }
+            else
+            {
+                CoefVariacion();
+            }
         }
     }
 }
