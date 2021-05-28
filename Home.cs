@@ -437,7 +437,7 @@ namespace EstadisticaDescriptiva
 
             //Coeficiente correlación:
             coefcorrelacion = covarianza / (desvTipX * desvTipY);
-            txtCoefCorre.Text = coefcorrelacion.ToString("N3");
+            txtCoefCorre.Text = coefcorrelacion.ToString("N4");
 
             x = 0;
             multi = 0;
@@ -498,17 +498,32 @@ namespace EstadisticaDescriptiva
         }
         private void LimpiarTxt()
         {
-            foreach (var txt in this.Controls.OfType<TextBox>()) //Acá son todos los textbox
+            /*Estos medotos buscan el tipo de control dentro del form o
+             dentro de otro control y realiza las acciones que se le pidan
+            En este caso, es vaciar el text de los textbox*/
+            foreach (var txt in this.Controls.OfType<TextBox>())
             {
-                txt.Text = string.Empty; //los vacío
+                txt.Text = string.Empty;
+            }
+            foreach (var txt in gpBidimensional.Controls.OfType<TextBox>())
+            {
+                txt.Text = string.Empty;
             }
         }
         private void LimpiarChk()
         {
-            foreach (var chk in this.Controls.OfType<CheckBox>()) // acá los cheackbox
+            // acá los checkbox
+            foreach (var chk in gpdispersion.Controls.OfType<CheckBox>())
             {
-                chk.Checked = false; //Les quito el check
-                chk.Enabled = false; //los inhabilito
+                chk.Checked = false;//Les quito el check
+            }
+            foreach (var chk in gpCentralizacion.Controls.OfType<CheckBox>())
+            {
+                chk.Checked = false;
+            }
+            foreach (var chk in gpBidimensional.Controls.OfType<CheckBox>())
+            {
+                chk.Checked = false;
             }
         }
         private void ResetVariables()

@@ -102,9 +102,10 @@ namespace EstadisticaDescriptiva
             this.lblQuartil = new System.Windows.Forms.Label();
             this.lblDecil = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkCompuesto = new System.Windows.Forms.RadioButton();
             this.btnBidimensional = new System.Windows.Forms.RadioButton();
             this.chkSimple = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gpCentralizacion = new System.Windows.Forms.GroupBox();
             this.gpdispersion = new System.Windows.Forms.GroupBox();
             this.chkCoefVariación = new System.Windows.Forms.CheckBox();
             this.chkDesviacionMedia = new System.Windows.Forms.CheckBox();
@@ -114,15 +115,14 @@ namespace EstadisticaDescriptiva
             this.txtDesvMedia = new System.Windows.Forms.TextBox();
             this.lblCoefVariacion = new System.Windows.Forms.Label();
             this.txtCoefVariacion = new System.Windows.Forms.TextBox();
-            this.gbBidimensional = new System.Windows.Forms.GroupBox();
-            this.chkCompuesto = new System.Windows.Forms.RadioButton();
+            this.gpBidimensional = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gpCentralizacion.SuspendLayout();
             this.gpdispersion.SuspendLayout();
-            this.gbBidimensional.SuspendLayout();
+            this.gpBidimensional.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvDatos
@@ -739,6 +739,18 @@ namespace EstadisticaDescriptiva
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos";
             // 
+            // chkCompuesto
+            // 
+            this.chkCompuesto.AutoSize = true;
+            this.chkCompuesto.Location = new System.Drawing.Point(28, 81);
+            this.chkCompuesto.Name = "chkCompuesto";
+            this.chkCompuesto.Size = new System.Drawing.Size(103, 24);
+            this.chkCompuesto.TabIndex = 55;
+            this.chkCompuesto.TabStop = true;
+            this.chkCompuesto.Text = "Agrupados";
+            this.chkCompuesto.UseVisualStyleBackColor = true;
+            this.chkCompuesto.CheckedChanged += new System.EventHandler(this.chkCompuesto_CheckedChanged);
+            // 
             // btnBidimensional
             // 
             this.btnBidimensional.AutoSize = true;
@@ -763,17 +775,17 @@ namespace EstadisticaDescriptiva
             this.chkSimple.UseVisualStyleBackColor = true;
             this.chkSimple.CheckedChanged += new System.EventHandler(this.chkSimple_CheckedChanged);
             // 
-            // groupBox2
+            // gpCentralizacion
             // 
-            this.groupBox2.Controls.Add(this.btnMediana);
-            this.groupBox2.Controls.Add(this.btnMedia);
-            this.groupBox2.Controls.Add(this.btnModa);
-            this.groupBox2.Location = new System.Drawing.Point(1098, 189);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(220, 134);
-            this.groupBox2.TabIndex = 53;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Parámetros de centralización";
+            this.gpCentralizacion.Controls.Add(this.btnMediana);
+            this.gpCentralizacion.Controls.Add(this.btnMedia);
+            this.gpCentralizacion.Controls.Add(this.btnModa);
+            this.gpCentralizacion.Location = new System.Drawing.Point(1098, 189);
+            this.gpCentralizacion.Name = "gpCentralizacion";
+            this.gpCentralizacion.Size = new System.Drawing.Size(220, 134);
+            this.gpCentralizacion.TabIndex = 53;
+            this.gpCentralizacion.TabStop = false;
+            this.gpCentralizacion.Text = "Parámetros de centralización";
             // 
             // gpdispersion
             // 
@@ -866,49 +878,37 @@ namespace EstadisticaDescriptiva
             this.txtCoefVariacion.Size = new System.Drawing.Size(120, 32);
             this.txtCoefVariacion.TabIndex = 57;
             // 
-            // gbBidimensional
+            // gpBidimensional
             // 
-            this.gbBidimensional.Controls.Add(this.btnCoefCor);
-            this.gbBidimensional.Controls.Add(this.btnCovarianza);
-            this.gbBidimensional.Controls.Add(this.txtMediaX);
-            this.gbBidimensional.Controls.Add(this.txtCovarianza);
-            this.gbBidimensional.Controls.Add(this.txtCoefCorre);
-            this.gbBidimensional.Controls.Add(this.lblCovarianza);
-            this.gbBidimensional.Controls.Add(this.lblCoef);
-            this.gbBidimensional.Controls.Add(this.txtMediaY);
-            this.gbBidimensional.Controls.Add(this.lblMediaX);
-            this.gbBidimensional.Controls.Add(this.lblMediaY);
-            this.gbBidimensional.Location = new System.Drawing.Point(1324, 189);
-            this.gbBidimensional.Name = "gbBidimensional";
-            this.gbBidimensional.Size = new System.Drawing.Size(300, 264);
-            this.gbBidimensional.TabIndex = 54;
-            this.gbBidimensional.TabStop = false;
-            this.gbBidimensional.Text = "Bidimensional";
-            // 
-            // chkCompuesto
-            // 
-            this.chkCompuesto.AutoSize = true;
-            this.chkCompuesto.Location = new System.Drawing.Point(28, 81);
-            this.chkCompuesto.Name = "chkCompuesto";
-            this.chkCompuesto.Size = new System.Drawing.Size(103, 24);
-            this.chkCompuesto.TabIndex = 55;
-            this.chkCompuesto.TabStop = true;
-            this.chkCompuesto.Text = "Agrupados";
-            this.chkCompuesto.UseVisualStyleBackColor = true;
-            this.chkCompuesto.CheckedChanged += new System.EventHandler(this.chkCompuesto_CheckedChanged);
+            this.gpBidimensional.Controls.Add(this.btnCoefCor);
+            this.gpBidimensional.Controls.Add(this.btnCovarianza);
+            this.gpBidimensional.Controls.Add(this.txtMediaX);
+            this.gpBidimensional.Controls.Add(this.txtCovarianza);
+            this.gpBidimensional.Controls.Add(this.txtCoefCorre);
+            this.gpBidimensional.Controls.Add(this.lblCovarianza);
+            this.gpBidimensional.Controls.Add(this.lblCoef);
+            this.gpBidimensional.Controls.Add(this.txtMediaY);
+            this.gpBidimensional.Controls.Add(this.lblMediaX);
+            this.gpBidimensional.Controls.Add(this.lblMediaY);
+            this.gpBidimensional.Location = new System.Drawing.Point(1324, 189);
+            this.gpBidimensional.Name = "gpBidimensional";
+            this.gpBidimensional.Size = new System.Drawing.Size(300, 264);
+            this.gpBidimensional.TabIndex = 54;
+            this.gpBidimensional.TabStop = false;
+            this.gpBidimensional.Text = "Bidimensional";
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1636, 614);
-            this.Controls.Add(this.gbBidimensional);
+            this.Controls.Add(this.gpBidimensional);
             this.Controls.Add(this.lblCoefVariacion);
             this.Controls.Add(this.txtCoefVariacion);
             this.Controls.Add(this.lblDesvMedia);
             this.Controls.Add(this.txtDesvMedia);
             this.Controls.Add(this.gpdispersion);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.gpCentralizacion);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblDecil);
             this.Controls.Add(this.lblQuartil);
@@ -945,12 +945,12 @@ namespace EstadisticaDescriptiva
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gpCentralizacion.ResumeLayout(false);
+            this.gpCentralizacion.PerformLayout();
             this.gpdispersion.ResumeLayout(false);
             this.gpdispersion.PerformLayout();
-            this.gbBidimensional.ResumeLayout(false);
-            this.gbBidimensional.PerformLayout();
+            this.gpBidimensional.ResumeLayout(false);
+            this.gpBidimensional.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1013,7 +1013,7 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblQuartil;
         private System.Windows.Forms.Label lblDecil;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox dpCentralizacion;
         private System.Windows.Forms.GroupBox gpdispersion;
         private System.Windows.Forms.CheckBox chkCoefVariación;
         private System.Windows.Forms.CheckBox chkDesviacionMedia;
@@ -1029,7 +1029,7 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblDesvMedia;
         private System.Windows.Forms.Label lblCoefVariacion;
         private System.Windows.Forms.TextBox txtCoefVariacion;
-        private System.Windows.Forms.GroupBox gbBidimensional;
+        private System.Windows.Forms.GroupBox gpBidimensional;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
@@ -1038,5 +1038,6 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.RadioButton btnBidimensional;
         private System.Windows.Forms.RadioButton chkSimple;
         private System.Windows.Forms.RadioButton chkCompuesto;
+        private System.Windows.Forms.GroupBox gpCentralizacion;
     }
 }
