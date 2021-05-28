@@ -44,14 +44,13 @@ namespace EstadisticaDescriptiva
         #endregion
 
         #region Metodos
-
         private void OrdenarDatos()
         {
             switch (calculo)
             {
                 case 0:
                     #region intervalo simple
-                    HabilitarCheks();
+                    HabilitarDGVcoleccion();
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
                     coleccionX = Convert.ToInt32(dgvDatos.Columns.Count);
 
@@ -78,17 +77,15 @@ namespace EstadisticaDescriptiva
 
                 case 1:
                     #region Intervalos compuestos
-
+                    HabilitarDGVcoleccion();
 
 
                     #endregion
-
                     break;
 
                 case 2:
                     #region Bidimensional
-                    //HabilitarChkBid();
-                    HabilitarBidimension();
+                    HabilitarDGVBidi();
                     string coleccionBid;
                     int r = 0;
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
@@ -110,11 +107,9 @@ namespace EstadisticaDescriptiva
                         coleccionBid = string.Empty;
                     }
                     #endregion
-
                     break;
             }
         }
-
         private void FrecuenciaAbsoluta()
         {
             switch (calculo)
@@ -164,7 +159,6 @@ namespace EstadisticaDescriptiva
                     break;
             }
         }
-
         private void Mediana()
         {
             if ((N % 2) == 0)
@@ -178,7 +172,6 @@ namespace EstadisticaDescriptiva
             CompararDatosMediana();
             txtMediana.Text = mediana.ToString();
         }
-
         private void CompararDatosMediana()
         {
             int i = 0;
@@ -193,7 +186,6 @@ namespace EstadisticaDescriptiva
             mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
             mediana = mediana / 2;
         }
-
         private void FrecuenciaAcumulada()
         {
             int reemplazo;
@@ -214,7 +206,6 @@ namespace EstadisticaDescriptiva
             }
             ordenadorRow = 0;
         }
-
         private void Media()
         {
             switch (calculo)
@@ -263,7 +254,6 @@ namespace EstadisticaDescriptiva
                     break;
             }            
         }
-
         private void Moda()
         {
             //El que se repite más veces
@@ -288,7 +278,6 @@ namespace EstadisticaDescriptiva
             }                           //dato x                                                   //frecuencia
             txtModa.Text = "El dato " + datoModa.ToString() + " tiene la mayor frecuencia con: " + moda.ToString();
         }
-
         private void DesviacionMedia()
         {
             //restar x a la media y luego multiplicar por f. La sumatoria se divide por N
@@ -316,7 +305,6 @@ namespace EstadisticaDescriptiva
 
             txtDesvMedia.Text = desviacionMedia.ToString("N2");
         }
-
         private void Varianza()
         {
             int resAcum = 0;
@@ -343,34 +331,28 @@ namespace EstadisticaDescriptiva
         }
         private void DesviacionTipica()
         {
-            desviacionTipica = Math.Sqrt(varianza); //raíz cuadrada de la varianza
-            txtDesviacionTipica.Text = desviacionTipica.ToString("N3"); //Convierto a string pero le paso un parametro 
-        }                                                               //que es para tener 3 decimales(N3) despues de la coma
-
+            desviacionTipica = Math.Sqrt(varianza);
+            txtDesviacionTipica.Text = desviacionTipica.ToString("N3");
+        }
         private void CoefVariacion()
         {
             txtCoefVariacion.Text = (desviacionTipica / mediaX).ToString("N3");
         }
-
-
         private void Percentil()
         {
             double p = Convert.ToInt32(txtPercentil.Text);
             txtPerRespuesta.Text = ((p * N) / 100).ToString();
         }
-
         private void Quartil()
         {
             int q = Convert.ToInt32(txtQuartil.Text);
             txtQuarRespuesta.Text = ((q * N) / 4).ToString();
         }
-
         private void Decil()
         {
             int d = Convert.ToInt32(txtDecil.Text);
             txtDecilRespuesta.Text = ((d * N) / 10).ToString();
         }
-
         private void Covarianza()
         {
             int x = 0;
@@ -402,8 +384,7 @@ namespace EstadisticaDescriptiva
             xy = 0;
             sum = 0;
         }
-
-        private void CoeficienteCorelacion()
+        private void CoeficienteCorrelacion()
         {
             int x = 0;
             int multi = 0;
@@ -464,7 +445,6 @@ namespace EstadisticaDescriptiva
             col = 3;
 
         }
-
         private void ChequearDGV()
         {
             if (dgvDatos.Rows.Count > 0 && chkSimple.Checked == true)
@@ -493,28 +473,21 @@ namespace EstadisticaDescriptiva
 
         #endregion
 
-        #region Configuraciones
-
-        private void HabilitarCheks()
+        #region Cambiar de DGV (Porque uso 1 para los calculos bidimensionales y otro para los intervalos simples)
+        private void HabilitarDGVcoleccion()
         {
-            //habilito los checkbox para poder hacer los calculos requeridos
-            btnMediana.Enabled = true;
-            btnMedia.Enabled = true;
-            btnModa.Enabled = true;
+            dgvBidimensional.Visible = false;
+            dgvColeccion.Visible = true;
+        }
+        private void HabilitarDGVBidi()
+        {
+            dgvBidimensional.Visible = true;
+            dgvColeccion.Visible = false;
         }
 
-        private void HabilitarChkBid() //Esto está pensado para los bidimensionales. Aún no se usa.
-        {
-            btnCoefCor.Enabled = true;
-        }
-
-        private void HabilitarCompuestos()
-        {
-            dgvDatos.Enabled = false;
-        }
         #endregion
 
-        #region Limpieza de controles
+        #region Reset de controles
 
         private void LimpiarDGV()
         {
@@ -523,7 +496,6 @@ namespace EstadisticaDescriptiva
                 dgv.Rows.Clear();
             }
         }
-
         private void LimpiarTxt()
         {
             foreach (var txt in this.Controls.OfType<TextBox>()) //Acá son todos los textbox
@@ -531,7 +503,6 @@ namespace EstadisticaDescriptiva
                 txt.Text = string.Empty; //los vacío
             }
         }
-
         private void LimpiarChk()
         {
             foreach (var chk in this.Controls.OfType<CheckBox>()) // acá los cheackbox
@@ -540,9 +511,8 @@ namespace EstadisticaDescriptiva
                 chk.Enabled = false; //los inhabilito
             }
         }
-
-        private void ResetVariables() //Cero simplicidad pero practicidad para lo que necesito
-        {                             //que es resetear todas las variables.
+        private void ResetVariables()
+        {
             ordenadorCol = 0;
             ordenadorRow = 0;
             contador = 0;
@@ -557,13 +527,12 @@ namespace EstadisticaDescriptiva
             PartialMe = 0;
             mediaX = 0;
             mediaY = 0;
+            desviacionMedia = 0;
             desviacionTipica = 0;
             varianza = 0;
             covarianza = 0;
             coefcorrelacion = 0;
-            desviacionMedia = 0;
         }
-
         private void QuitarChecks()
         {
             foreach (var chk in gpdispersion.Controls.OfType<CheckBox>())
@@ -573,110 +542,11 @@ namespace EstadisticaDescriptiva
             }
         }
 
-        #endregion
-
-        #region checkearluego
-
-        private void HabilitarBidimension()
-        {
-            foreach (var chk in gbBidimensional.Controls.OfType<CheckBox>())
-            {
-                chk.Enabled = true;
-            }
-            foreach (var txt in gbBidimensional.Controls.OfType<TextBox>())
-            {
-                txt.Enabled = true;
-            }
-
-            foreach (var lbl in gbBidimensional.Controls.OfType<Label>())
-            {
-                lbl.Enabled = true;
-            }
-
-            //if (!chkSimple.Checked)
-            //{
-            //    dgvBidimensional.Visible = false;
-            //    dgvColeccion.Visible = true;      
-            //    txtMediana.Visible = true;
-            //    lblMediana.Visible = true;
-            //    txtMedia.Visible = true;
-            //    lblMedia.Visible = true;
-            //    txtModa.Visible = true;
-            //    lblModa.Visible = true;
-            //    txtEne.Visible = true;
-            //    lblEne.Visible = true;
-            //    txtVarianza.Visible = true;
-            //    lblVarianza.Visible = true;
-            //    txtDesviacionTipica.Visible = true;
-            //    lblTipica.Visible = true;
-            //    lblValor.Visible = true;
-            //    lblRespuesta.Visible = true;
-            //    lblPercentil.Visible = true;
-            //    txtPercentil.Visible = true;
-            //    txtPerRespuesta.Visible = true;
-            //    lblQuartil.Visible = true;
-            //    txtQuartil.Visible = true;
-            //    txtQuarRespuesta.Visible = true;
-            //    lblDecil.Visible = true;
-            //    txtDecil.Visible = true;
-            //    txtDecilRespuesta.Visible = true;
-
-            //    txtMediaX.Visible = false;
-            //    lblMediaX.Visible = false;
-            //    txtMediaY.Visible = false;
-            //    lblMediaY.Visible = false;
-            //    txtCovarianza.Visible = false;
-            //    lblCovarianza.Visible = false;
-            //    txtCoeficiente.Visible = false;
-            //    lblCoef.Visible = false;
-            //}
-            //else
-            //{
-            //    dgvBidimensional.Visible = true;
-            //    dgvColeccion.Visible = false;
-            //    txtMediana.Visible = false;
-            //    lblMediana.Visible = false;
-            //    txtMedia.Visible = false;
-            //    lblMedia.Visible = false;
-            //    txtModa.Visible = false;
-            //    lblModa.Visible = false;
-            //    txtEne.Visible = false;
-            //    lblEne.Visible = false;
-            //    txtVarianza.Visible = false;
-            //    lblVarianza.Visible = false;
-            //    txtDesviacionTipica.Visible = false;
-            //    lblTipica.Visible = false;
-            //    lblValor.Visible = false;
-            //    lblRespuesta.Visible = false;
-            //    lblPercentil.Visible = false;
-            //    txtPercentil.Visible = false;
-            //    txtPerRespuesta.Visible = false;
-            //    lblQuartil.Visible = false;
-            //    txtQuartil.Visible = false;
-            //    txtQuarRespuesta.Visible = false;
-            //    lblDecil.Visible = false;
-            //    txtDecil.Visible = false;
-            //    txtDecilRespuesta.Visible = false;
-
-            //    txtMediaX.Visible = true;
-            //    lblMediaX.Visible = true;
-            //    txtMediaY.Visible = true;
-            //    lblMediaY.Visible = true;
-            //    txtCovarianza.Visible = true;
-            //    lblCovarianza.Visible = true;
-            //    txtCoeficiente.Visible = true;
-            //    lblCoef.Visible = true;
-            //}
-        }
-
-        #endregion
-        
+        #endregion        
 
         #region Eventos
-
         private void btnCalcularOrdenar_Click(object sender, EventArgs e)
         {
-            //checkeoButton(); Cuando se quite el comentario, el método de abajo tiene que dejarse encapsulado en el metodo anterior.
             ChequearDGV();
             if (empty)
             {
@@ -699,10 +569,8 @@ namespace EstadisticaDescriptiva
                 }
             }            
         }
-
         private void btnMediana_CheckedChanged(object sender, EventArgs e)
-        {
-            
+        {            
             if (!btnMediana.Checked)
             {
                 txtMediana.Text = string.Empty;
@@ -712,26 +580,31 @@ namespace EstadisticaDescriptiva
                 Mediana(); //Acá llamo al método encapsulado para calcular la mediana
             }
         }
-
         private void btnMedia_CheckedChanged(object sender, EventArgs e)
         {
-            Media();
+            if (chkSimple.Checked)
+            {
+                if (!btnMedia.Checked)
+                {
+                    QuitarChecks();
+                    txtVarianza.Text = string.Empty;
+                    txtDesvMedia.Text = string.Empty;
+                    txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
+                }                                //y al txt de la Media se le quita el contenido.
+                else
+                {
+                    Media();//Acá llamo al método encapsulado para calcular la media
+                    btnVarianza.Enabled = true; //habilito el chk de la varianza
+                    chkDesviacionMedia.Enabled = true;
+                }
+            }
+            else
+            {
+                Media();
+            }
 
-            //if (!btnMedia.Checked)
-            //{
-            //    QuitarChecks();
-            //    txtVarianza.Text = string.Empty;
-            //    txtDesvMedia.Text = string.Empty;
-            //    txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
-            //}                                //y al txt de la Media se le quita el contenido.
-            //else
-            //{
-            //    Media();//Acá llamo al método encapsulado para calcular la media
-            //    btnVarianza.Enabled = true; //habilito el chk de la varianza
-            //    chkDesviacionMedia.Enabled = true;
-            //}
+
         }
-
         private void btnModa_CheckedChanged(object sender, EventArgs e)
         {
             if (!btnModa.Checked) //el signo ! significa la negación: Si btnModa no esta con el check entonces ..
@@ -744,8 +617,6 @@ namespace EstadisticaDescriptiva
                 Moda(); //llamo al método de la moda (Ctrl + click izquierdo) y los lleva al médoto en cuestión)
             }
         }           
-
-
         private void btnVarianza_CheckedChanged(object sender, EventArgs e)
         {
             if (!btnVarianza.Checked)
@@ -761,11 +632,8 @@ namespace EstadisticaDescriptiva
                 btnTipica.Enabled = true; // y habilitamos la tipica para calcularla.
             }
         }
-
         private void btnTipica_CheckedChanged(object sender, EventArgs e)
         {
-            HabilitarBidimension();
-
             if (!btnTipica.Checked)
             {
                 txtDesviacionTipica.Text = string.Empty;
@@ -778,78 +646,35 @@ namespace EstadisticaDescriptiva
                 DesviacionTipica(); //calculo la desv tipica.
             }
         }
-
-        //Estos 3 métodos siguientes, obviamente quie no los voy a explicar. (son una papa)
         private void txtPercentil_Leave(object sender, EventArgs e)
         {
             Percentil();
         }
-
         private void txtQuartil_Leave(object sender, EventArgs e)
         {
             Quartil();
         }
-
         private void txtDecil_Leave(object sender, EventArgs e)
         {
             Decil();
         }
-
         private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
         {
-            if (!btnBidimensional.Checked)
-            {
-                calculo = 0;
-                dgvBidimensional.Visible = false;
-                dgvColeccion.Visible = true;
-            }
-            else
-            {
-                calculo = 2;
-                dgvBidimensional.Visible = true;
-                dgvColeccion.Visible = false;
-                btnMedia.Enabled = true;
-            }
-            //HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
+            calculo = 2;
         }
-
-        #endregion
-
         private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
         {
-            if (!chkCompuesto.Checked)
-            {
-                chkSimple.Enabled = true;
-                chkSimple.Checked = true;
-                btnBidimensional.Checked = false;
-                btnBidimensional.Enabled = true;
-                calculo = 0; //conesto vamos a switchear entre las 3 opciones de cálculos.
-                dgvDatos.Enabled = true;
-            }
-            else
-            {
-                chkSimple.Enabled = false;
-                chkSimple.Checked = false;
-                btnBidimensional.Checked = false;
-                btnBidimensional.Enabled = false;
-                HabilitarCompuestos();
-                calculo = 1;
-                dgvDatos.Enabled = false;
-                OrdenarDatos();
-            }
-
+            calculo = 1;
+            OrdenarDatos();
         }
-
         private void chkSimple_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 0;
         }
-
         private void chkDesviacionMedia_CheckedChanged(object sender, EventArgs e)
         {
             DesviacionMedia();
         }
-
         private void chkCoefVariación_CheckedChanged(object sender, EventArgs e)
         {
             if (!chkDesviacionMedia.Checked)
@@ -861,15 +686,14 @@ namespace EstadisticaDescriptiva
                 CoefVariacion();
             }
         }
-
         private void btnCovarianza_CheckedChanged(object sender, EventArgs e)
         {
             Covarianza();
         }
-
         private void btnCoefCor_CheckedChanged(object sender, EventArgs e)
         {
-            CoeficienteCorelacion();
+            CoeficienteCorrelacion();
         }
+        #endregion
     }
 }

@@ -102,9 +102,8 @@ namespace EstadisticaDescriptiva
             this.lblQuartil = new System.Windows.Forms.Label();
             this.lblDecil = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnBidimensional = new System.Windows.Forms.CheckBox();
-            this.chkCompuesto = new System.Windows.Forms.CheckBox();
-            this.chkSimple = new System.Windows.Forms.CheckBox();
+            this.btnBidimensional = new System.Windows.Forms.RadioButton();
+            this.chkSimple = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.gpdispersion = new System.Windows.Forms.GroupBox();
             this.chkCoefVariación = new System.Windows.Forms.CheckBox();
@@ -116,6 +115,7 @@ namespace EstadisticaDescriptiva
             this.lblCoefVariacion = new System.Windows.Forms.Label();
             this.txtCoefVariacion = new System.Windows.Forms.TextBox();
             this.gbBidimensional = new System.Windows.Forms.GroupBox();
+            this.chkCompuesto = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
@@ -261,7 +261,6 @@ namespace EstadisticaDescriptiva
             // btnMediana
             // 
             this.btnMediana.AutoSize = true;
-            this.btnMediana.Enabled = false;
             this.btnMediana.Location = new System.Drawing.Point(15, 31);
             this.btnMediana.Name = "btnMediana";
             this.btnMediana.Size = new System.Drawing.Size(89, 24);
@@ -273,7 +272,6 @@ namespace EstadisticaDescriptiva
             // btnMedia
             // 
             this.btnMedia.AutoSize = true;
-            this.btnMedia.Enabled = false;
             this.btnMedia.Location = new System.Drawing.Point(15, 61);
             this.btnMedia.Name = "btnMedia";
             this.btnMedia.Size = new System.Drawing.Size(73, 24);
@@ -285,7 +283,6 @@ namespace EstadisticaDescriptiva
             // btnModa
             // 
             this.btnModa.AutoSize = true;
-            this.btnModa.Enabled = false;
             this.btnModa.Location = new System.Drawing.Point(15, 91);
             this.btnModa.Name = "btnModa";
             this.btnModa.Size = new System.Drawing.Size(70, 24);
@@ -297,7 +294,6 @@ namespace EstadisticaDescriptiva
             // btnCovarianza
             // 
             this.btnCovarianza.AutoSize = true;
-            this.btnCovarianza.Enabled = false;
             this.btnCovarianza.Location = new System.Drawing.Point(25, 31);
             this.btnCovarianza.Name = "btnCovarianza";
             this.btnCovarianza.Size = new System.Drawing.Size(104, 24);
@@ -309,7 +305,6 @@ namespace EstadisticaDescriptiva
             // btnCoefCor
             // 
             this.btnCoefCor.AutoSize = true;
-            this.btnCoefCor.Enabled = false;
             this.btnCoefCor.Location = new System.Drawing.Point(25, 61);
             this.btnCoefCor.Name = "btnCoefCor";
             this.btnCoefCor.Size = new System.Drawing.Size(148, 24);
@@ -344,7 +339,6 @@ namespace EstadisticaDescriptiva
             // 
             // txtCovarianza
             // 
-            this.txtCovarianza.Enabled = false;
             this.txtCovarianza.Location = new System.Drawing.Point(58, 198);
             this.txtCovarianza.Name = "txtCovarianza";
             this.txtCovarianza.Size = new System.Drawing.Size(90, 27);
@@ -352,7 +346,6 @@ namespace EstadisticaDescriptiva
             // 
             // txtCoefCorre
             // 
-            this.txtCoefCorre.Enabled = false;
             this.txtCoefCorre.Location = new System.Drawing.Point(154, 198);
             this.txtCoefCorre.Name = "txtCoefCorre";
             this.txtCoefCorre.Size = new System.Drawing.Size(89, 27);
@@ -406,7 +399,6 @@ namespace EstadisticaDescriptiva
             // lblCovarianza
             // 
             this.lblCovarianza.AutoSize = true;
-            this.lblCovarianza.Enabled = false;
             this.lblCovarianza.Location = new System.Drawing.Point(58, 175);
             this.lblCovarianza.Name = "lblCovarianza";
             this.lblCovarianza.Size = new System.Drawing.Size(85, 20);
@@ -416,7 +408,6 @@ namespace EstadisticaDescriptiva
             // lblCoef
             // 
             this.lblCoef.AutoSize = true;
-            this.lblCoef.Enabled = false;
             this.lblCoef.Location = new System.Drawing.Point(152, 175);
             this.lblCoef.Name = "lblCoef";
             this.lblCoef.Size = new System.Drawing.Size(75, 20);
@@ -426,7 +417,6 @@ namespace EstadisticaDescriptiva
             // lblMediaY
             // 
             this.lblMediaY.AutoSize = true;
-            this.lblMediaY.Enabled = false;
             this.lblMediaY.Location = new System.Drawing.Point(154, 100);
             this.lblMediaY.Name = "lblMediaY";
             this.lblMediaY.Size = new System.Drawing.Size(66, 20);
@@ -436,7 +426,6 @@ namespace EstadisticaDescriptiva
             // lblMediaX
             // 
             this.lblMediaX.AutoSize = true;
-            this.lblMediaX.Enabled = false;
             this.lblMediaX.Location = new System.Drawing.Point(58, 100);
             this.lblMediaX.Name = "lblMediaX";
             this.lblMediaX.Size = new System.Drawing.Size(67, 20);
@@ -445,7 +434,6 @@ namespace EstadisticaDescriptiva
             // 
             // txtMediaY
             // 
-            this.txtMediaY.Enabled = false;
             this.txtMediaY.Location = new System.Drawing.Point(154, 123);
             this.txtMediaY.Name = "txtMediaY";
             this.txtMediaY.Size = new System.Drawing.Size(89, 27);
@@ -453,7 +441,6 @@ namespace EstadisticaDescriptiva
             // 
             // txtMediaX
             // 
-            this.txtMediaX.Enabled = false;
             this.txtMediaX.Location = new System.Drawing.Point(58, 123);
             this.txtMediaX.Name = "txtMediaX";
             this.txtMediaX.Size = new System.Drawing.Size(90, 27);
@@ -742,8 +729,8 @@ namespace EstadisticaDescriptiva
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnBidimensional);
             this.groupBox1.Controls.Add(this.chkCompuesto);
+            this.groupBox1.Controls.Add(this.btnBidimensional);
             this.groupBox1.Controls.Add(this.chkSimple);
             this.groupBox1.Location = new System.Drawing.Point(545, 10);
             this.groupBox1.Name = "groupBox1";
@@ -755,34 +742,23 @@ namespace EstadisticaDescriptiva
             // btnBidimensional
             // 
             this.btnBidimensional.AutoSize = true;
-            this.btnBidimensional.Location = new System.Drawing.Point(161, 32);
+            this.btnBidimensional.Location = new System.Drawing.Point(153, 31);
             this.btnBidimensional.Name = "btnBidimensional";
-            this.btnBidimensional.Size = new System.Drawing.Size(125, 24);
-            this.btnBidimensional.TabIndex = 52;
-            this.btnBidimensional.Text = "Bidimensional";
+            this.btnBidimensional.Size = new System.Drawing.Size(138, 24);
+            this.btnBidimensional.TabIndex = 54;
+            this.btnBidimensional.TabStop = true;
+            this.btnBidimensional.Text = "Bidimensionales";
             this.btnBidimensional.UseVisualStyleBackColor = true;
             this.btnBidimensional.CheckedChanged += new System.EventHandler(this.btnBidimensional_CheckedChanged);
-            // 
-            // chkCompuesto
-            // 
-            this.chkCompuesto.AutoSize = true;
-            this.chkCompuesto.Location = new System.Drawing.Point(28, 81);
-            this.chkCompuesto.Name = "chkCompuesto";
-            this.chkCompuesto.Size = new System.Drawing.Size(104, 24);
-            this.chkCompuesto.TabIndex = 51;
-            this.chkCompuesto.Text = "Agrupados";
-            this.chkCompuesto.UseVisualStyleBackColor = true;
-            this.chkCompuesto.CheckedChanged += new System.EventHandler(this.chkCompuesto_CheckedChanged);
             // 
             // chkSimple
             // 
             this.chkSimple.AutoSize = true;
-            this.chkSimple.Checked = true;
-            this.chkSimple.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSimple.Location = new System.Drawing.Point(28, 32);
+            this.chkSimple.Location = new System.Drawing.Point(28, 31);
             this.chkSimple.Name = "chkSimple";
-            this.chkSimple.Size = new System.Drawing.Size(83, 24);
-            this.chkSimple.TabIndex = 50;
+            this.chkSimple.Size = new System.Drawing.Size(82, 24);
+            this.chkSimple.TabIndex = 53;
+            this.chkSimple.TabStop = true;
             this.chkSimple.Text = "Simples";
             this.chkSimple.UseVisualStyleBackColor = true;
             this.chkSimple.CheckedChanged += new System.EventHandler(this.chkSimple_CheckedChanged);
@@ -815,7 +791,6 @@ namespace EstadisticaDescriptiva
             // chkCoefVariación
             // 
             this.chkCoefVariación.AutoSize = true;
-            this.chkCoefVariación.Enabled = false;
             this.chkCoefVariación.Location = new System.Drawing.Point(15, 130);
             this.chkCoefVariación.Name = "chkCoefVariación";
             this.chkCoefVariación.Size = new System.Drawing.Size(191, 24);
@@ -827,7 +802,6 @@ namespace EstadisticaDescriptiva
             // chkDesviacionMedia
             // 
             this.chkDesviacionMedia.AutoSize = true;
-            this.chkDesviacionMedia.Enabled = false;
             this.chkDesviacionMedia.Location = new System.Drawing.Point(15, 40);
             this.chkDesviacionMedia.Name = "chkDesviacionMedia";
             this.chkDesviacionMedia.Size = new System.Drawing.Size(149, 24);
@@ -839,7 +813,6 @@ namespace EstadisticaDescriptiva
             // btnTipica
             // 
             this.btnTipica.AutoSize = true;
-            this.btnTipica.Enabled = false;
             this.btnTipica.Location = new System.Drawing.Point(15, 100);
             this.btnTipica.Name = "btnTipica";
             this.btnTipica.Size = new System.Drawing.Size(147, 24);
@@ -851,7 +824,6 @@ namespace EstadisticaDescriptiva
             // btnVarianza
             // 
             this.btnVarianza.AutoSize = true;
-            this.btnVarianza.Enabled = false;
             this.btnVarianza.Location = new System.Drawing.Point(15, 70);
             this.btnVarianza.Name = "btnVarianza";
             this.btnVarianza.Size = new System.Drawing.Size(87, 24);
@@ -912,6 +884,18 @@ namespace EstadisticaDescriptiva
             this.gbBidimensional.TabIndex = 54;
             this.gbBidimensional.TabStop = false;
             this.gbBidimensional.Text = "Bidimensional";
+            // 
+            // chkCompuesto
+            // 
+            this.chkCompuesto.AutoSize = true;
+            this.chkCompuesto.Location = new System.Drawing.Point(28, 81);
+            this.chkCompuesto.Name = "chkCompuesto";
+            this.chkCompuesto.Size = new System.Drawing.Size(103, 24);
+            this.chkCompuesto.TabIndex = 55;
+            this.chkCompuesto.TabStop = true;
+            this.chkCompuesto.Text = "Agrupados";
+            this.chkCompuesto.UseVisualStyleBackColor = true;
+            this.chkCompuesto.CheckedChanged += new System.EventHandler(this.chkCompuesto_CheckedChanged);
             // 
             // Home
             // 
@@ -1029,9 +1013,6 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblQuartil;
         private System.Windows.Forms.Label lblDecil;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox chkSimple;
-        private System.Windows.Forms.CheckBox chkCompuesto;
-        private System.Windows.Forms.CheckBox btnBidimensional;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox gpdispersion;
         private System.Windows.Forms.CheckBox chkCoefVariación;
@@ -1054,5 +1035,8 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.RadioButton btnBidimensional;
+        private System.Windows.Forms.RadioButton chkSimple;
+        private System.Windows.Forms.RadioButton chkCompuesto;
     }
 }
