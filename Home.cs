@@ -53,7 +53,7 @@ namespace EstadisticaDescriptiva
                     #region intervalo simple
                     HabilitarCheks();
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    coleccionX = dgvDatos.Columns.Count;
+                    coleccionX = Convert.ToInt32(dgvDatos.Columns.Count);
 
                     for (int i = 0; i < coleccionY; i++)
                     {
@@ -77,7 +77,6 @@ namespace EstadisticaDescriptiva
                     break;
 
                 case 1:
-
                     #region Intervalos compuestos
 
 
@@ -87,25 +86,28 @@ namespace EstadisticaDescriptiva
                     break;
 
                 case 2:
-
                     #region Bidimensional
-                    HabilitarChkBid();
-                    string coleccionBi;
+                    //HabilitarChkBid();
+                    HabilitarBidimension();
+                    string coleccionBid;
                     int r = 0;
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    coleccionX = dgvDatos.Columns.Count;
+                    coleccionX = Convert.ToInt32(dgvDatos.Columns.Count);
                     dgvBidimensional.Rows.Add(coleccionX + 1);
+                    N = coleccionX;
+                    txtEne.Text = N.ToString();
 
-                    for (int j = 0; j < coleccionX; j++)
+                    for (int i = 0; i < coleccionY; i++)
                     {
-                        for (int i = 0; i < coleccionY; i++)
+                        for (int j = 0; j < coleccionX; j++)
                         {
-                            coleccionBi = dgvDatos.Rows[i].Cells[j].Value.ToString();
-                            dgvBidimensional.Rows[j].Cells[i].Value = coleccionBi;
-                            r += Convert.ToInt32(coleccionBi);
+                            coleccionBid = dgvDatos.Rows[i].Cells[j].Value.ToString();
+                            dgvBidimensional.Rows[j].Cells[i].Value = coleccionBid;
+                            r += Convert.ToInt32(coleccionBid);
                         }
-                        dgvBidimensional.Rows[j].Cells[coleccionX + 1].Value = r.ToString();
+                        dgvBidimensional.Rows[coleccionX].Cells[i].Value = r.ToString();
                         r = 0;
+                        coleccionBid = string.Empty;
                     }
                     #endregion
 
@@ -115,38 +117,52 @@ namespace EstadisticaDescriptiva
 
         private void FrecuenciaAbsoluta()
         {
-            for (int x = 0; contador < mayor; x++)
+            switch (calculo)
             {
-                for (int i = 0; i < coleccionY; i++)
-                {
-                    for (int j = 0; j < coleccionX; j++)
+                case 0:
+                    #region Simples
+                    for (int x = 0; contador < mayor; x++)
                     {
-                        coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-                        if (contador == coleccionDato)
+                        for (int i = 0; i < coleccionY; i++)
                         {
-                            repetidor++;
-                        }
-                    }
-                }
-                //agregar este dato en el otro dgv
-                // y al lado su repeticion
+                            for (int j = 0; j < coleccionX; j++)
+                            {
+                                coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
 
-                dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
-                dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
-                //sumatoria de las frecuencias
-                N += repetidor;
-                repetidor = 0;
-                contador++;
-                ordenadorRow++;
+                                if (contador == coleccionDato)
+                                {
+                                    repetidor++;
+                                }
+                            }
+                        }
+                        //agregar este dato en el otro dgv
+                        // y al lado su repeticion
+
+                        dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
+                        dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
+                        //sumatoria de las frecuencias
+                        N += repetidor;
+                        repetidor = 0;
+                        contador++;
+                        ordenadorRow++;
+                    }
+                    coleccionY = 0;
+                    coleccionX = 0;
+                    coleccionDato = 0;
+                    txtEne.Text = N.ToString();
+                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
+                    ordenadorRow = 0;
+                    FrecuenciaAcumulada();
+                    #endregion
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    #region Bidimensional
+
+                    #endregion
+                    break;
             }
-            coleccionY = 0;
-            coleccionX = 0;
-            coleccionDato = 0;
-            txtEne.Text = N.ToString();
-            dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
-            ordenadorRow = 0;
-            FrecuenciaAcumulada();
         }
 
         private void Mediana()
@@ -201,26 +217,51 @@ namespace EstadisticaDescriptiva
 
         private void Media()
         {
-            int resAcum = 0;
-            int resMulti = 0;
-            int resSumatoria = 0;
-            for (int i = 0; i < mayor; i++)
+            switch (calculo)
             {
-                for (int j = 1; j < 2; j++)
-                {
-                    resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
-                    resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
-                    resAcum = resAcum * resMulti; //Esto es la multiplicación x por f. A cada variable le asigno un dato y multiplico
-                    resSumatoria += resAcum; //Acá está la sumatoria
-                    dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString(); //y acá muestro el resultado
-                    resMulti = 0;
-                    resAcum = 0;
-                }
-            }
-            dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
+                case 0:
+                    #region Simples
+                    int resAcum = 0;
+                    int resMulti = 0;
+                    int resSumatoria = 0;
+                    for (int i = 0; i < mayor; i++)
+                    {
+                        for (int j = 1; j < 2; j++)
+                        {
+                            resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
+                            resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                            resAcum = resAcum * resMulti; //Esto es la multiplicación x por f. A cada variable le asigno un dato y multiplico
+                            resSumatoria += resAcum; //Acá está la sumatoria
+                            dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString(); //y acá muestro el resultado
+                            resMulti = 0;
+                            resAcum = 0;
+                        }
+                    }
+                    dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
 
-            mediaX = resSumatoria / N;
-            txtMedia.Text = mediaX.ToString("N3");
+                    mediaX = resSumatoria / N;
+                    txtMedia.Text = mediaX.ToString("N3");
+                    #endregion
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    #region Bidimensional
+                    int x = 0;
+                    int y = 0;
+
+                    x = Convert.ToInt32(dgvBidimensional.Rows[coleccionX].Cells[0].Value);
+                    y = Convert.ToInt32(dgvBidimensional.Rows[coleccionX].Cells[1].Value);
+
+                    mediaX = Convert.ToDouble(x) / N;
+                    mediaY = Convert.ToDouble(y) / N;
+
+                    txtMediaX.Text = mediaX.ToString("N2");
+                    txtMediaY.Text = mediaY.ToString("N2");
+
+                    #endregion
+                    break;
+            }            
         }
 
         private void Moda()
@@ -332,11 +373,95 @@ namespace EstadisticaDescriptiva
 
         private void Covarianza()
         {
+            int x = 0;
+            int y = 0;
+            int multi = 0;
+            int sum = 0;
+            for (int i = 0; i < coleccionX; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    x = Convert.ToInt32(dgvBidimensional.Rows[i].Cells[j].Value);
+                    y = Convert.ToInt32(dgvBidimensional.Rows[i].Cells[1].Value);
+                    multi = x * y;
+                    sum += multi;
+                    dgvBidimensional.Rows[i].Cells[2].Value = multi.ToString();
+                    y = 0;
+                    x = 0;
+                    multi = 0;
+                }
+            }
+            dgvBidimensional.Rows[coleccionX].Cells[2].Value = sum.ToString();
 
+            double xy = mediaX * mediaY;
+            double rs = sum / N;
+            covarianza = rs - xy;
+            txtCovarianza.Text = (covarianza).ToString("N3");
+
+            rs = 0;
+            xy = 0;
+            sum = 0;
         }
 
         private void CoeficienteCorelacion()
         {
+            int x = 0;
+            int multi = 0;
+            int sum = 0;
+            double desvTipX = 0;
+            double desvTipY = 0;
+            int col = 3;
+
+            //X al cuadrado y su sumatoria
+            for (int i = 0; i < coleccionX; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    x = Convert.ToInt32(dgvBidimensional.Rows[i].Cells[j].Value);
+                    multi = x * x;
+                    sum += multi;
+                    dgvBidimensional.Rows[i].Cells[col].Value = multi.ToString();
+                    x = 0;
+                    multi = 0;
+                }
+            }
+            dgvBidimensional.Rows[coleccionX].Cells[col].Value = sum.ToString();
+            col++;
+
+            desvTipX = Convert.ToDouble((sum / N) - (mediaX * mediaX)); 
+
+            x = 0;
+            multi = 0;
+            sum = 0;
+
+            //Y al cuadrado y su sumatoria.
+            for (int i = 0; i < coleccionX; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    x = Convert.ToInt32(dgvBidimensional.Rows[i].Cells[j].Value);
+                    multi = x * x;
+                    sum += multi;
+                    dgvBidimensional.Rows[i].Cells[col].Value = multi.ToString();
+                    x = 0;
+                    multi = 0;
+                }
+            }
+            dgvBidimensional.Rows[coleccionX].Cells[col].Value = sum.ToString();
+
+            desvTipY = Convert.ToDouble((sum / N) - (mediaY * mediaY));
+
+            desvTipX = Math.Sqrt(desvTipX);
+            desvTipY = Math.Sqrt(desvTipY);
+
+            //Coeficiente correlación:
+            coefcorrelacion = covarianza / (desvTipX * desvTipY);
+            txtCoefCorre.Text = coefcorrelacion.ToString("N3");
+
+            x = 0;
+            multi = 0;
+            sum = 0;
+            col = 3;
 
         }
 
@@ -380,7 +505,7 @@ namespace EstadisticaDescriptiva
 
         private void HabilitarChkBid() //Esto está pensado para los bidimensionales. Aún no se usa.
         {
-            btnRegresion.Enabled = true;
+            btnCoefCor.Enabled = true;
         }
 
         private void HabilitarCompuestos()
@@ -450,85 +575,98 @@ namespace EstadisticaDescriptiva
 
         #endregion
 
-
         #region checkearluego
 
-        private void HabilitarBidimension() //Al igual que acá, es mucho reseteo de controles, pero se puede hacer esto:
-        {                                   //Seccionar ciertos controles en un groupbox, y luego recoorerlos con un foreach
-            if (!chkSimple.Checked)  //y así ir escondiendolos o mostrandolos, dependiendo de cada sección
-            {                               // solo que yo no tenía ganas de hacer eso xq ya había hecho todo
-                dgvBidimensional.Visible = false; //Pero si hacemos eso, luego en los eventos de cada checkbox tenemos que 
-                dgvColeccion.Visible = true;      //asignarle el respectivo checked_change y ese era el viaje xD
-                txtMediana.Visible = true;
-                lblMediana.Visible = true;
-                txtMedia.Visible = true;
-                lblMedia.Visible = true;
-                txtModa.Visible = true;
-                lblModa.Visible = true;
-                txtEne.Visible = true;
-                lblEne.Visible = true;
-                txtVarianza.Visible = true;
-                lblVarianza.Visible = true;
-                txtDesviacionTipica.Visible = true;
-                lblTipica.Visible = true;
-                lblValor.Visible = true;
-                lblRespuesta.Visible = true;
-                lblPercentil.Visible = true;
-                txtPercentil.Visible = true;
-                txtPerRespuesta.Visible = true;
-                lblQuartil.Visible = true;
-                txtQuartil.Visible = true;
-                txtQuarRespuesta.Visible = true;
-                lblDecil.Visible = true;
-                txtDecil.Visible = true;
-                txtDecilRespuesta.Visible = true;
-
-                txtMediaX.Visible = false;
-                lblMediaX.Visible = false;
-                txtMediaY.Visible = false;
-                lblMediaY.Visible = false;
-                txtCovarianza.Visible = false;
-                lblCovarianza.Visible = false;
-                txtCoeficiente.Visible = false;
-                lblCoef.Visible = false;
-            }
-            else
+        private void HabilitarBidimension()
+        {
+            foreach (var chk in gbBidimensional.Controls.OfType<CheckBox>())
             {
-                dgvBidimensional.Visible = true;
-                dgvColeccion.Visible = false;
-                txtMediana.Visible = false;
-                lblMediana.Visible = false;
-                txtMedia.Visible = false;
-                lblMedia.Visible = false;
-                txtModa.Visible = false;
-                lblModa.Visible = false;
-                txtEne.Visible = false;
-                lblEne.Visible = false;
-                txtVarianza.Visible = false;
-                lblVarianza.Visible = false;
-                txtDesviacionTipica.Visible = false;
-                lblTipica.Visible = false;
-                lblValor.Visible = false;
-                lblRespuesta.Visible = false;
-                lblPercentil.Visible = false;
-                txtPercentil.Visible = false;
-                txtPerRespuesta.Visible = false;
-                lblQuartil.Visible = false;
-                txtQuartil.Visible = false;
-                txtQuarRespuesta.Visible = false;
-                lblDecil.Visible = false;
-                txtDecil.Visible = false;
-                txtDecilRespuesta.Visible = false;
-
-                txtMediaX.Visible = true;
-                lblMediaX.Visible = true;
-                txtMediaY.Visible = true;
-                lblMediaY.Visible = true;
-                txtCovarianza.Visible = true;
-                lblCovarianza.Visible = true;
-                txtCoeficiente.Visible = true;
-                lblCoef.Visible = true;
+                chk.Enabled = true;
             }
+            foreach (var txt in gbBidimensional.Controls.OfType<TextBox>())
+            {
+                txt.Enabled = true;
+            }
+
+            foreach (var lbl in gbBidimensional.Controls.OfType<Label>())
+            {
+                lbl.Enabled = true;
+            }
+
+            //if (!chkSimple.Checked)
+            //{
+            //    dgvBidimensional.Visible = false;
+            //    dgvColeccion.Visible = true;      
+            //    txtMediana.Visible = true;
+            //    lblMediana.Visible = true;
+            //    txtMedia.Visible = true;
+            //    lblMedia.Visible = true;
+            //    txtModa.Visible = true;
+            //    lblModa.Visible = true;
+            //    txtEne.Visible = true;
+            //    lblEne.Visible = true;
+            //    txtVarianza.Visible = true;
+            //    lblVarianza.Visible = true;
+            //    txtDesviacionTipica.Visible = true;
+            //    lblTipica.Visible = true;
+            //    lblValor.Visible = true;
+            //    lblRespuesta.Visible = true;
+            //    lblPercentil.Visible = true;
+            //    txtPercentil.Visible = true;
+            //    txtPerRespuesta.Visible = true;
+            //    lblQuartil.Visible = true;
+            //    txtQuartil.Visible = true;
+            //    txtQuarRespuesta.Visible = true;
+            //    lblDecil.Visible = true;
+            //    txtDecil.Visible = true;
+            //    txtDecilRespuesta.Visible = true;
+
+            //    txtMediaX.Visible = false;
+            //    lblMediaX.Visible = false;
+            //    txtMediaY.Visible = false;
+            //    lblMediaY.Visible = false;
+            //    txtCovarianza.Visible = false;
+            //    lblCovarianza.Visible = false;
+            //    txtCoeficiente.Visible = false;
+            //    lblCoef.Visible = false;
+            //}
+            //else
+            //{
+            //    dgvBidimensional.Visible = true;
+            //    dgvColeccion.Visible = false;
+            //    txtMediana.Visible = false;
+            //    lblMediana.Visible = false;
+            //    txtMedia.Visible = false;
+            //    lblMedia.Visible = false;
+            //    txtModa.Visible = false;
+            //    lblModa.Visible = false;
+            //    txtEne.Visible = false;
+            //    lblEne.Visible = false;
+            //    txtVarianza.Visible = false;
+            //    lblVarianza.Visible = false;
+            //    txtDesviacionTipica.Visible = false;
+            //    lblTipica.Visible = false;
+            //    lblValor.Visible = false;
+            //    lblRespuesta.Visible = false;
+            //    lblPercentil.Visible = false;
+            //    txtPercentil.Visible = false;
+            //    txtPerRespuesta.Visible = false;
+            //    lblQuartil.Visible = false;
+            //    txtQuartil.Visible = false;
+            //    txtQuarRespuesta.Visible = false;
+            //    lblDecil.Visible = false;
+            //    txtDecil.Visible = false;
+            //    txtDecilRespuesta.Visible = false;
+
+            //    txtMediaX.Visible = true;
+            //    lblMediaX.Visible = true;
+            //    txtMediaY.Visible = true;
+            //    lblMediaY.Visible = true;
+            //    txtCovarianza.Visible = true;
+            //    lblCovarianza.Visible = true;
+            //    txtCoeficiente.Visible = true;
+            //    lblCoef.Visible = true;
+            //}
         }
 
         #endregion
@@ -577,19 +715,21 @@ namespace EstadisticaDescriptiva
 
         private void btnMedia_CheckedChanged(object sender, EventArgs e)
         {
-            if (!btnMedia.Checked)
-            {
-                QuitarChecks();
-                txtVarianza.Text = string.Empty;
-                txtDesvMedia.Text = string.Empty;
-                txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
-            }                                //y al txt de la Media se le quita el contenido.
-            else
-            {
-                Media();//Acá llamo al método encapsulado para calcular la media
-                btnVarianza.Enabled = true; //habilito el chk de la varianza
-                chkDesviacionMedia.Enabled = true;
-            }
+            Media();
+
+            //if (!btnMedia.Checked)
+            //{
+            //    QuitarChecks();
+            //    txtVarianza.Text = string.Empty;
+            //    txtDesvMedia.Text = string.Empty;
+            //    txtMedia.Text = string.Empty;//Así que si no está habilitada y calculada la Media, el chk de la varianza se quita
+            //}                                //y al txt de la Media se le quita el contenido.
+            //else
+            //{
+            //    Media();//Acá llamo al método encapsulado para calcular la media
+            //    btnVarianza.Enabled = true; //habilito el chk de la varianza
+            //    chkDesviacionMedia.Enabled = true;
+            //}
         }
 
         private void btnModa_CheckedChanged(object sender, EventArgs e)
@@ -624,6 +764,8 @@ namespace EstadisticaDescriptiva
 
         private void btnTipica_CheckedChanged(object sender, EventArgs e)
         {
+            HabilitarBidimension();
+
             if (!btnTipica.Checked)
             {
                 txtDesviacionTipica.Text = string.Empty;
@@ -666,6 +808,7 @@ namespace EstadisticaDescriptiva
                 calculo = 2;
                 dgvBidimensional.Visible = true;
                 dgvColeccion.Visible = false;
+                btnMedia.Enabled = true;
             }
             //HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
         }
@@ -717,6 +860,16 @@ namespace EstadisticaDescriptiva
             {
                 CoefVariacion();
             }
+        }
+
+        private void btnCovarianza_CheckedChanged(object sender, EventArgs e)
+        {
+            Covarianza();
+        }
+
+        private void btnCoefCor_CheckedChanged(object sender, EventArgs e)
+        {
+            CoeficienteCorelacion();
         }
     }
 }

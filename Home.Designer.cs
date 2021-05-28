@@ -29,15 +29,15 @@ namespace EstadisticaDescriptiva
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvDatos = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,12 +56,12 @@ namespace EstadisticaDescriptiva
             this.btnMedia = new System.Windows.Forms.CheckBox();
             this.btnModa = new System.Windows.Forms.CheckBox();
             this.btnCovarianza = new System.Windows.Forms.CheckBox();
-            this.btnRegresion = new System.Windows.Forms.CheckBox();
+            this.btnCoefCor = new System.Windows.Forms.CheckBox();
             this.txtMedia = new System.Windows.Forms.TextBox();
             this.txtVarianza = new System.Windows.Forms.TextBox();
             this.txtDesviacionTipica = new System.Windows.Forms.TextBox();
             this.txtCovarianza = new System.Windows.Forms.TextBox();
-            this.txtCoeficiente = new System.Windows.Forms.TextBox();
+            this.txtCoefCorre = new System.Windows.Forms.TextBox();
             this.lblMediana = new System.Windows.Forms.Label();
             this.lblMedia = new System.Windows.Forms.Label();
             this.lblModa = new System.Windows.Forms.Label();
@@ -86,9 +86,9 @@ namespace EstadisticaDescriptiva
             this.dgvBidimensional = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtModa = new System.Windows.Forms.TextBox();
             this.txtPercentil = new System.Windows.Forms.TextBox();
             this.txtQuartil = new System.Windows.Forms.TextBox();
@@ -115,14 +115,14 @@ namespace EstadisticaDescriptiva
             this.txtDesvMedia = new System.Windows.Forms.TextBox();
             this.lblCoefVariacion = new System.Windows.Forms.Label();
             this.txtCoefVariacion = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gbBidimensional = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gpdispersion.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbBidimensional.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvDatos
@@ -298,25 +298,25 @@ namespace EstadisticaDescriptiva
             // 
             this.btnCovarianza.AutoSize = true;
             this.btnCovarianza.Enabled = false;
-            this.btnCovarianza.Location = new System.Drawing.Point(16, 58);
+            this.btnCovarianza.Location = new System.Drawing.Point(25, 31);
             this.btnCovarianza.Name = "btnCovarianza";
             this.btnCovarianza.Size = new System.Drawing.Size(104, 24);
             this.btnCovarianza.TabIndex = 10;
             this.btnCovarianza.Text = "Covarianza";
             this.btnCovarianza.UseVisualStyleBackColor = true;
-            this.btnCovarianza.Visible = false;
+            this.btnCovarianza.CheckedChanged += new System.EventHandler(this.btnCovarianza_CheckedChanged);
             // 
-            // btnRegresion
+            // btnCoefCor
             // 
-            this.btnRegresion.AutoSize = true;
-            this.btnRegresion.Enabled = false;
-            this.btnRegresion.Location = new System.Drawing.Point(16, 28);
-            this.btnRegresion.Name = "btnRegresion";
-            this.btnRegresion.Size = new System.Drawing.Size(137, 24);
-            this.btnRegresion.TabIndex = 12;
-            this.btnRegresion.Text = "Regresión lineal";
-            this.btnRegresion.UseVisualStyleBackColor = true;
-            this.btnRegresion.Visible = false;
+            this.btnCoefCor.AutoSize = true;
+            this.btnCoefCor.Enabled = false;
+            this.btnCoefCor.Location = new System.Drawing.Point(25, 61);
+            this.btnCoefCor.Name = "btnCoefCor";
+            this.btnCoefCor.Size = new System.Drawing.Size(148, 24);
+            this.btnCoefCor.TabIndex = 12;
+            this.btnCoefCor.Text = "Coef. Correlación:";
+            this.btnCoefCor.UseVisualStyleBackColor = true;
+            this.btnCoefCor.CheckedChanged += new System.EventHandler(this.btnCoefCor_CheckedChanged);
             // 
             // txtMedia
             // 
@@ -345,20 +345,18 @@ namespace EstadisticaDescriptiva
             // txtCovarianza
             // 
             this.txtCovarianza.Enabled = false;
-            this.txtCovarianza.Location = new System.Drawing.Point(25, 186);
+            this.txtCovarianza.Location = new System.Drawing.Point(58, 198);
             this.txtCovarianza.Name = "txtCovarianza";
-            this.txtCovarianza.Size = new System.Drawing.Size(82, 27);
+            this.txtCovarianza.Size = new System.Drawing.Size(90, 27);
             this.txtCovarianza.TabIndex = 17;
-            this.txtCovarianza.Visible = false;
             // 
-            // txtCoeficiente
+            // txtCoefCorre
             // 
-            this.txtCoeficiente.Enabled = false;
-            this.txtCoeficiente.Location = new System.Drawing.Point(113, 186);
-            this.txtCoeficiente.Name = "txtCoeficiente";
-            this.txtCoeficiente.Size = new System.Drawing.Size(71, 27);
-            this.txtCoeficiente.TabIndex = 18;
-            this.txtCoeficiente.Visible = false;
+            this.txtCoefCorre.Enabled = false;
+            this.txtCoefCorre.Location = new System.Drawing.Point(154, 198);
+            this.txtCoefCorre.Name = "txtCoefCorre";
+            this.txtCoefCorre.Size = new System.Drawing.Size(89, 27);
+            this.txtCoefCorre.TabIndex = 18;
             // 
             // lblMediana
             // 
@@ -409,63 +407,57 @@ namespace EstadisticaDescriptiva
             // 
             this.lblCovarianza.AutoSize = true;
             this.lblCovarianza.Enabled = false;
-            this.lblCovarianza.Location = new System.Drawing.Point(25, 163);
+            this.lblCovarianza.Location = new System.Drawing.Point(58, 175);
             this.lblCovarianza.Name = "lblCovarianza";
             this.lblCovarianza.Size = new System.Drawing.Size(85, 20);
             this.lblCovarianza.TabIndex = 24;
             this.lblCovarianza.Text = "Covarianza:";
-            this.lblCovarianza.Visible = false;
             // 
             // lblCoef
             // 
             this.lblCoef.AutoSize = true;
             this.lblCoef.Enabled = false;
-            this.lblCoef.Location = new System.Drawing.Point(113, 163);
+            this.lblCoef.Location = new System.Drawing.Point(152, 175);
             this.lblCoef.Name = "lblCoef";
             this.lblCoef.Size = new System.Drawing.Size(75, 20);
             this.lblCoef.TabIndex = 25;
             this.lblCoef.Text = "Coef Corr:";
-            this.lblCoef.Visible = false;
             // 
             // lblMediaY
             // 
             this.lblMediaY.AutoSize = true;
             this.lblMediaY.Enabled = false;
-            this.lblMediaY.Location = new System.Drawing.Point(102, 107);
+            this.lblMediaY.Location = new System.Drawing.Point(154, 100);
             this.lblMediaY.Name = "lblMediaY";
             this.lblMediaY.Size = new System.Drawing.Size(66, 20);
             this.lblMediaY.TabIndex = 29;
             this.lblMediaY.Text = "Media Y:";
-            this.lblMediaY.Visible = false;
             // 
             // lblMediaX
             // 
             this.lblMediaX.AutoSize = true;
             this.lblMediaX.Enabled = false;
-            this.lblMediaX.Location = new System.Drawing.Point(25, 107);
+            this.lblMediaX.Location = new System.Drawing.Point(58, 100);
             this.lblMediaX.Name = "lblMediaX";
             this.lblMediaX.Size = new System.Drawing.Size(67, 20);
             this.lblMediaX.TabIndex = 28;
             this.lblMediaX.Text = "Media X:";
-            this.lblMediaX.Visible = false;
             // 
             // txtMediaY
             // 
             this.txtMediaY.Enabled = false;
-            this.txtMediaY.Location = new System.Drawing.Point(102, 130);
+            this.txtMediaY.Location = new System.Drawing.Point(154, 123);
             this.txtMediaY.Name = "txtMediaY";
-            this.txtMediaY.Size = new System.Drawing.Size(71, 27);
+            this.txtMediaY.Size = new System.Drawing.Size(89, 27);
             this.txtMediaY.TabIndex = 27;
-            this.txtMediaY.Visible = false;
             // 
             // txtMediaX
             // 
             this.txtMediaX.Enabled = false;
-            this.txtMediaX.Location = new System.Drawing.Point(25, 130);
+            this.txtMediaX.Location = new System.Drawing.Point(58, 123);
             this.txtMediaX.Name = "txtMediaX";
-            this.txtMediaX.Size = new System.Drawing.Size(71, 27);
+            this.txtMediaX.Size = new System.Drawing.Size(90, 27);
             this.txtMediaX.TabIndex = 26;
-            this.txtMediaX.Visible = false;
             // 
             // lblEne
             // 
@@ -487,8 +479,8 @@ namespace EstadisticaDescriptiva
             // dgvColeccion
             // 
             this.dgvColeccion.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            this.dgvColeccion.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.dgvColeccion.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvColeccion.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvColeccion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColeccion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -503,16 +495,16 @@ namespace EstadisticaDescriptiva
             this.dgvColeccion.Name = "dgvColeccion";
             this.dgvColeccion.RowHeadersVisible = false;
             this.dgvColeccion.RowHeadersWidth = 51;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvColeccion.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvColeccion.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvColeccion.Size = new System.Drawing.Size(547, 452);
             this.dgvColeccion.TabIndex = 32;
             // 
             // intervalo
             // 
             this.intervalo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.intervalo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.intervalo.DefaultCellStyle = dataGridViewCellStyle11;
             this.intervalo.HeaderText = "Intervalo";
             this.intervalo.MinimumWidth = 6;
             this.intervalo.Name = "intervalo";
@@ -521,8 +513,8 @@ namespace EstadisticaDescriptiva
             // equis
             // 
             this.equis.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.equis.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.equis.DefaultCellStyle = dataGridViewCellStyle12;
             this.equis.HeaderText = "x";
             this.equis.MinimumWidth = 6;
             this.equis.Name = "equis";
@@ -531,8 +523,8 @@ namespace EstadisticaDescriptiva
             // frecuenciaAbs
             // 
             this.frecuenciaAbs.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.frecuenciaAbs.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.frecuenciaAbs.DefaultCellStyle = dataGridViewCellStyle13;
             this.frecuenciaAbs.HeaderText = "f";
             this.frecuenciaAbs.MinimumWidth = 6;
             this.frecuenciaAbs.Name = "frecuenciaAbs";
@@ -541,8 +533,8 @@ namespace EstadisticaDescriptiva
             // frecuenciaAbsAcum
             // 
             this.frecuenciaAbsAcum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.frecuenciaAbsAcum.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.frecuenciaAbsAcum.DefaultCellStyle = dataGridViewCellStyle14;
             this.frecuenciaAbsAcum.HeaderText = "F";
             this.frecuenciaAbsAcum.MinimumWidth = 6;
             this.frecuenciaAbsAcum.Name = "frecuenciaAbsAcum";
@@ -551,8 +543,8 @@ namespace EstadisticaDescriptiva
             // equisporefe
             // 
             this.equisporefe.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.equisporefe.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.equisporefe.DefaultCellStyle = dataGridViewCellStyle15;
             this.equisporefe.HeaderText = "x * f";
             this.equisporefe.MinimumWidth = 6;
             this.equisporefe.Name = "equisporefe";
@@ -561,8 +553,8 @@ namespace EstadisticaDescriptiva
             // equisal2porefe
             // 
             this.equisal2porefe.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.equisal2porefe.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.equisal2porefe.DefaultCellStyle = dataGridViewCellStyle16;
             this.equisal2porefe.HeaderText = "x2 . f";
             this.equisal2porefe.MinimumWidth = 6;
             this.equisal2porefe.Name = "equisal2porefe";
@@ -571,8 +563,8 @@ namespace EstadisticaDescriptiva
             // desVar
             // 
             this.desVar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.desVar.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.desVar.DefaultCellStyle = dataGridViewCellStyle17;
             this.desVar.HeaderText = "(x - M).f";
             this.desVar.MinimumWidth = 6;
             this.desVar.Name = "desVar";
@@ -587,9 +579,9 @@ namespace EstadisticaDescriptiva
             this.dgvBidimensional.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5});
+            this.dataGridViewTextBoxColumn4});
             this.dgvBidimensional.Location = new System.Drawing.Point(545, 150);
             this.dgvBidimensional.Name = "dgvBidimensional";
             this.dgvBidimensional.ReadOnly = true;
@@ -617,6 +609,15 @@ namespace EstadisticaDescriptiva
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 60;
             // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn5.HeaderText = "X * Y";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 80;
+            // 
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -634,15 +635,6 @@ namespace EstadisticaDescriptiva
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn5.HeaderText = "X * Y";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 80;
             // 
             // txtModa
             // 
@@ -902,31 +894,31 @@ namespace EstadisticaDescriptiva
             this.txtCoefVariacion.Size = new System.Drawing.Size(120, 32);
             this.txtCoefVariacion.TabIndex = 57;
             // 
-            // groupBox3
+            // gbBidimensional
             // 
-            this.groupBox3.Controls.Add(this.btnRegresion);
-            this.groupBox3.Controls.Add(this.btnCovarianza);
-            this.groupBox3.Controls.Add(this.txtMediaX);
-            this.groupBox3.Controls.Add(this.txtCovarianza);
-            this.groupBox3.Controls.Add(this.txtCoeficiente);
-            this.groupBox3.Controls.Add(this.lblCovarianza);
-            this.groupBox3.Controls.Add(this.lblCoef);
-            this.groupBox3.Controls.Add(this.txtMediaY);
-            this.groupBox3.Controls.Add(this.lblMediaX);
-            this.groupBox3.Controls.Add(this.lblMediaY);
-            this.groupBox3.Location = new System.Drawing.Point(1324, 189);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(300, 264);
-            this.groupBox3.TabIndex = 54;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Parámetros de centralización";
+            this.gbBidimensional.Controls.Add(this.btnCoefCor);
+            this.gbBidimensional.Controls.Add(this.btnCovarianza);
+            this.gbBidimensional.Controls.Add(this.txtMediaX);
+            this.gbBidimensional.Controls.Add(this.txtCovarianza);
+            this.gbBidimensional.Controls.Add(this.txtCoefCorre);
+            this.gbBidimensional.Controls.Add(this.lblCovarianza);
+            this.gbBidimensional.Controls.Add(this.lblCoef);
+            this.gbBidimensional.Controls.Add(this.txtMediaY);
+            this.gbBidimensional.Controls.Add(this.lblMediaX);
+            this.gbBidimensional.Controls.Add(this.lblMediaY);
+            this.gbBidimensional.Location = new System.Drawing.Point(1324, 189);
+            this.gbBidimensional.Name = "gbBidimensional";
+            this.gbBidimensional.Size = new System.Drawing.Size(300, 264);
+            this.gbBidimensional.TabIndex = 54;
+            this.gbBidimensional.TabStop = false;
+            this.gbBidimensional.Text = "Bidimensional";
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1636, 614);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gbBidimensional);
             this.Controls.Add(this.lblCoefVariacion);
             this.Controls.Add(this.txtCoefVariacion);
             this.Controls.Add(this.lblDesvMedia);
@@ -973,8 +965,8 @@ namespace EstadisticaDescriptiva
             this.groupBox2.PerformLayout();
             this.gpdispersion.ResumeLayout(false);
             this.gpdispersion.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gbBidimensional.ResumeLayout(false);
+            this.gbBidimensional.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -999,13 +991,13 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.CheckBox btnMedia;
         private System.Windows.Forms.CheckBox btnModa;
         private System.Windows.Forms.CheckBox btnCovarianza;
-        private System.Windows.Forms.CheckBox btnRegresion;
+        private System.Windows.Forms.CheckBox btnCoefCor;
         private System.Windows.Forms.TextBox txtDesvMedia;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox txtVarianza;
         private System.Windows.Forms.TextBox txtDesviacionTipica;
         private System.Windows.Forms.TextBox txtCovarianza;
-        private System.Windows.Forms.TextBox txtCoeficiente;
+        private System.Windows.Forms.TextBox txtCoefCorre;
         private System.Windows.Forms.Label lblMediana;
         private System.Windows.Forms.Label lblMedia;
         private System.Windows.Forms.Label lblModa;
@@ -1021,11 +1013,6 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.TextBox txtEne;
         private System.Windows.Forms.DataGridView dgvColeccion;
         private System.Windows.Forms.DataGridView dgvBidimensional;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridView dgvDatos;
         private System.Windows.Forms.TextBox txtMediana;
         private System.Windows.Forms.TextBox txtMedia;
@@ -1061,6 +1048,11 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblDesvMedia;
         private System.Windows.Forms.Label lblCoefVariacion;
         private System.Windows.Forms.TextBox txtCoefVariacion;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gbBidimensional;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
     }
 }
