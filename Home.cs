@@ -34,12 +34,21 @@ namespace EstadisticaDescriptiva
         double mediaY= 0;
         double desviacionMedia = 0;
         double desviacionTipica = 0;
-        double varianza = 0;
-        
+        double varianza = 0;        
         double covarianza = 0;
         double coefcorrelacion = 0;
-
         int calculo;
+
+        // Estas van a servir para separar los límites superior e inferior
+
+        double a = 0;
+        bool carga = true;
+        //Se elije un caracter delimitador
+        char[] delimitador = { ' ', ':', ';', '-', '\\' };
+        double amplitud;
+        string Lim;
+        double Ls;
+        double Li;
 
         #endregion
 
@@ -72,14 +81,55 @@ namespace EstadisticaDescriptiva
                     mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
                     dgvColeccion.Rows.Add(mayor);
                     FrecuenciaAbsoluta();
+                    FrecuenciaAcumulada();
                     #endregion
                     break;
 
                 case 1:
                     #region Intervalos compuestos
                     HabilitarDGVcoleccion();
+                    coleccionX = Convert.ToInt32(dgvColeccion.Rows.Count - 1);
+                    dgvColeccion.Rows.Add(1);
 
+                    for (int i = 0; i < 1; i++)
+                    {
+                        for (int j = 0; j < coleccionX; j++)
+                        {
+                            //Luego paso lo que hay en la celda del intervalo a una variable tipo string.
+                            Lim = dgvColeccion.Rows[j].Cells[i].Value.ToString();
 
+                            //Ahora separo los caracteres que tengo por cada demilitador encontrado.
+                            string[] intervalo = Lim.Split(delimitador);
+
+                            foreach (var num in intervalo)
+                            {
+                                //Necesito tener 2 numeros para sumarlos
+                                //para luego poder dividirlos
+                                // por lo que creo una variable booleana y le voy cambiando el valor
+                                
+                                if (carga)
+                                {
+                                    //si es verdadero, le asigno el primer valor y cambio el valor booleano
+                                    a = Convert.ToDouble(num);
+                                    carga = false;
+                                }
+                                else
+                                {
+                                    //si es falso, le sumo el segundo valor al que ya tengo
+                                    a += Convert.ToDouble(num);
+                                    carga = true;
+                                }
+                            }
+
+                            //Ahora divido la suma sobre 2 y obtengo el dato x y lo coloco en la siguiente columna
+                            dgvColeccion.Rows[j].Cells[1].Value = (a/2).ToString();
+
+                        }
+                    }
+
+                    //Terminado de sacar la equis, ahora calculo la frecuencia acumulada, ya que la frecuencia absoluta ya la tengo.
+                    FrecuenciaAbsoluta();
+                    FrecuenciaAcumulada();
                     #endregion
                     break;
 
@@ -147,10 +197,21 @@ namespace EstadisticaDescriptiva
                     txtEne.Text = N.ToString();
                     dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
                     ordenadorRow = 0;
-                    FrecuenciaAcumulada();
                     #endregion
                     break;
                 case 1:
+                    #region Intervalos agrupados
+
+                    for (int i = 0; i < coleccionX; i++)
+                    {
+                        N += Convert.ToDouble(dgvColeccion.Rows[i].Cells[2].Value);
+                    }
+
+                    dgvColeccion.Rows[coleccionX].Cells[2].Value = N.ToString();
+                    txtEne.Text = N.ToString();
+
+                    #endregion
+
                     break;
                 case 2:
                     #region Bidimensional
@@ -158,6 +219,7 @@ namespace EstadisticaDescriptiva
                     #endregion
                     break;
             }
+
         }
         private void Mediana()
         {
@@ -170,7 +232,6 @@ namespace EstadisticaDescriptiva
                 mediana = (N + 1) / 2;
             }
             CompararDatosMediana();
-            txtMediana.Text = mediana.ToString();
         }
         private void CompararDatosMediana()
         {
@@ -181,40 +242,128 @@ namespace EstadisticaDescriptiva
                 PartialMe = comparacionFrecAcum - mediana;
                 i++;
             } while (PartialMe < 0);
+            i--;
+            switch (calculo)
+            {
+                case 0:
+                    #region Simples
 
-            mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[1].Value);
-            mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
-            mediana = mediana / 2;
+                    mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[1].Value);
+                    mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
+                    mediana = mediana / 2;
+                    txtMediana.Text = mediana.ToString();
+                    #endregion
+                    break;
+                case 1:
+                    #region Agrupados
+
+                    //Luego paso lo que hay en la celda del intervalo a una variable tipo string.
+                    Lim = dgvColeccion.Rows[i].Cells[0].Value.ToString();
+
+                    //Ahora separo los caracteres que tengo por cada demilitador encontrado.
+                    string[] intervalo = Lim.Split(delimitador);
+
+                    foreach (var num in intervalo)
+                    {
+                        //obtengo los límites para realizar el cálculo de la mediana
+                        if (carga)
+                        {
+                            Li = Convert.ToDouble(num);
+                            carga = false;
+                        }
+                        else
+                        {
+                            Ls = Convert.ToDouble(num);
+                            carga = true;
+                        }
+                    }
+                    txtIntervaloMediana.Text = "El intervalo de la mediana es: " + Lim;
+
+                    amplitud = Ls - Li;
+                    txtAmplitud.Text = amplitud.ToString();
+
+                    double F = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[3].Value); // F
+                    double f = Convert.ToDouble(dgvColeccion.Rows[i].Cells[2].Value); // f
+                    mediana = Li + ((mediana - F) / f) * amplitud;
+                    txtMediana.Text = mediana.ToString();
+
+                    #endregion
+                    break;
+                case 2:
+                    break;
+            }
+
+            if (calculo == 0)
+            {
+            }
+            else
+            {
+
+            }
         }
         private void FrecuenciaAcumulada()
         {
             int reemplazo;
             int reemplazo2;
-            for (int i = 0; i < mayor; i++)
+
+            switch (calculo)
             {
-                if (ordenadorRow == 0)
-                {
-                    dgvColeccion.Rows[ordenadorRow].Cells[3].Value = dgvColeccion.Rows[ordenadorRow].Cells[2].Value;
-                }
-                else
-                {
-                    reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[3].Value);
-                    reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[2].Value);
-                    dgvColeccion.Rows[ordenadorRow].Cells[3].Value = (reemplazo + reemplazo2).ToString();
-                }
-                ordenadorRow++;
-            }
-            ordenadorRow = 0;
+                case 0:
+                    #region intervalo simple
+                    for (int i = 0; i < mayor; i++)
+                    {
+                        if (ordenadorRow == 0)
+                        {
+                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = dgvColeccion.Rows[ordenadorRow].Cells[2].Value;
+                        }
+                        else
+                        {
+                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[3].Value);
+                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[2].Value);
+                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = (reemplazo + reemplazo2).ToString();
+                        }
+                        ordenadorRow++;
+                    }
+                    ordenadorRow = 0;
+                    #endregion
+                    break;
+
+                case 1:
+                    #region Intervalos agrupados
+                    for (int i = 0; i < coleccionX; i++)
+                    {
+                        if (i == 0)
+                        {
+                            dgvColeccion.Rows[i].Cells[3].Value = dgvColeccion.Rows[i].Cells[2].Value;
+                        }
+                        else
+                        {
+                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[i - 1].Cells[3].Value);
+                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                            dgvColeccion.Rows[i].Cells[3].Value = (reemplazo + reemplazo2).ToString();
+                        }
+                    }
+
+                    #endregion
+                    break;
+                //no se si lo necesito a este case, pero por las dudas lo tengo listo.
+                case 2:
+                    #region Bidimensional
+                    
+                    #endregion
+                    break;
+            }            
         }
         private void Media()
         {
+            int resAcum = 0;
+            int resMulti = 0;
+            int resSumatoria = 0;
+
             switch (calculo)
             {
                 case 0:
                     #region Simples
-                    int resAcum = 0;
-                    int resMulti = 0;
-                    int resSumatoria = 0;
                     for (int i = 0; i < mayor; i++)
                     {
                         for (int j = 1; j < 2; j++)
@@ -231,10 +380,27 @@ namespace EstadisticaDescriptiva
                     dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
 
                     mediaX = resSumatoria / N;
-                    txtMedia.Text = mediaX.ToString("N3");
+                    txtMedia.Text = mediaX.ToString("N2");
                     #endregion
                     break;
                 case 1:
+                    for (int i = 0; i < coleccionX; i++)
+                    {
+                        for (int j = 1; j < 2; j++)
+                        {
+                            resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
+                            resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                            resAcum = resAcum * resMulti; //Esto es la multiplicación x por f. A cada variable le asigno un dato y multiplico
+                            resSumatoria += resAcum; //Acá está la sumatoria
+                            dgvColeccion.Rows[i].Cells[4].Value = resAcum.ToString(); //y acá muestro el resultado
+                            resMulti = 0;
+                            resAcum = 0;
+                        }
+                    }
+                    dgvColeccion.Rows[coleccionX].Cells[4].Value = resSumatoria.ToString();
+
+                    mediaX = resSumatoria / N;
+                    txtMedia.Text = mediaX.ToString("N2");
                     break;
                 case 2:
                     #region Bidimensional
@@ -547,6 +713,12 @@ namespace EstadisticaDescriptiva
             varianza = 0;
             covarianza = 0;
             coefcorrelacion = 0;
+            a = 0;
+            carga = true;
+            amplitud = 0;
+            Lim = string.Empty;
+            Ls = 0;
+            Li = 0;
         }
         private void QuitarChecks()
         {
@@ -571,9 +743,9 @@ namespace EstadisticaDescriptiva
             {
                 if (btnCalcularOrdenar.Text == "Limpiar")
                 {
+                    LimpiarChk();
                     LimpiarDGV();
                     LimpiarTxt();
-                    LimpiarChk();
                     ResetVariables();
                     btnCalcularOrdenar.Text = "Obtener datos";
                 }
@@ -680,7 +852,6 @@ namespace EstadisticaDescriptiva
         private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 1;
-            OrdenarDatos();
         }
         private void chkSimple_CheckedChanged(object sender, EventArgs e)
         {

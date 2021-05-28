@@ -116,6 +116,10 @@ namespace EstadisticaDescriptiva
             this.lblCoefVariacion = new System.Windows.Forms.Label();
             this.txtCoefVariacion = new System.Windows.Forms.TextBox();
             this.gpBidimensional = new System.Windows.Forms.GroupBox();
+            this.txtIntervaloMediana = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtAmplitud = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
@@ -252,7 +256,7 @@ namespace EstadisticaDescriptiva
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1098, 157);
+            this.label1.Location = new System.Drawing.Point(1103, 189);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 20);
             this.label1.TabIndex = 4;
@@ -780,7 +784,7 @@ namespace EstadisticaDescriptiva
             this.gpCentralizacion.Controls.Add(this.btnMediana);
             this.gpCentralizacion.Controls.Add(this.btnMedia);
             this.gpCentralizacion.Controls.Add(this.btnModa);
-            this.gpCentralizacion.Location = new System.Drawing.Point(1098, 189);
+            this.gpCentralizacion.Location = new System.Drawing.Point(1098, 224);
             this.gpCentralizacion.Name = "gpCentralizacion";
             this.gpCentralizacion.Size = new System.Drawing.Size(220, 134);
             this.gpCentralizacion.TabIndex = 53;
@@ -793,7 +797,7 @@ namespace EstadisticaDescriptiva
             this.gpdispersion.Controls.Add(this.chkDesviacionMedia);
             this.gpdispersion.Controls.Add(this.btnTipica);
             this.gpdispersion.Controls.Add(this.btnVarianza);
-            this.gpdispersion.Location = new System.Drawing.Point(1098, 329);
+            this.gpdispersion.Location = new System.Drawing.Point(1098, 375);
             this.gpdispersion.Name = "gpdispersion";
             this.gpdispersion.Size = new System.Drawing.Size(220, 168);
             this.gpdispersion.TabIndex = 54;
@@ -897,11 +901,49 @@ namespace EstadisticaDescriptiva
             this.gpBidimensional.TabStop = false;
             this.gpBidimensional.Text = "Bidimensional";
             // 
+            // txtIntervaloMediana
+            // 
+            this.txtIntervaloMediana.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtIntervaloMediana.Location = new System.Drawing.Point(1098, 149);
+            this.txtIntervaloMediana.Name = "txtIntervaloMediana";
+            this.txtIntervaloMediana.Size = new System.Drawing.Size(289, 32);
+            this.txtIntervaloMediana.TabIndex = 60;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1098, 126);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 20);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "Intervalo:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1393, 126);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 20);
+            this.label3.TabIndex = 62;
+            this.label3.Text = "Amplitud:";
+            // 
+            // txtAmplitud
+            // 
+            this.txtAmplitud.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtAmplitud.Location = new System.Drawing.Point(1393, 149);
+            this.txtAmplitud.Name = "txtAmplitud";
+            this.txtAmplitud.Size = new System.Drawing.Size(88, 32);
+            this.txtAmplitud.TabIndex = 61;
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1636, 614);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtAmplitud);
+            this.Controls.Add(this.txtIntervaloMediana);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.gpBidimensional);
             this.Controls.Add(this.lblCoefVariacion);
             this.Controls.Add(this.txtCoefVariacion);
@@ -1039,5 +1081,9 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.RadioButton chkSimple;
         private System.Windows.Forms.RadioButton chkCompuesto;
         private System.Windows.Forms.GroupBox gpCentralizacion;
+        private System.Windows.Forms.TextBox txtIntervaloMediana;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtAmplitud;
     }
 }
