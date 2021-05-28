@@ -115,12 +115,14 @@ namespace EstadisticaDescriptiva
             this.txtDesvMedia = new System.Windows.Forms.TextBox();
             this.lblCoefVariacion = new System.Windows.Forms.Label();
             this.txtCoefVariacion = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColeccion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBidimensional)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gpdispersion.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvDatos
@@ -296,7 +298,7 @@ namespace EstadisticaDescriptiva
             // 
             this.btnCovarianza.AutoSize = true;
             this.btnCovarianza.Enabled = false;
-            this.btnCovarianza.Location = new System.Drawing.Point(1459, 265);
+            this.btnCovarianza.Location = new System.Drawing.Point(16, 58);
             this.btnCovarianza.Name = "btnCovarianza";
             this.btnCovarianza.Size = new System.Drawing.Size(104, 24);
             this.btnCovarianza.TabIndex = 10;
@@ -308,7 +310,7 @@ namespace EstadisticaDescriptiva
             // 
             this.btnRegresion.AutoSize = true;
             this.btnRegresion.Enabled = false;
-            this.btnRegresion.Location = new System.Drawing.Point(1459, 235);
+            this.btnRegresion.Location = new System.Drawing.Point(16, 28);
             this.btnRegresion.Name = "btnRegresion";
             this.btnRegresion.Size = new System.Drawing.Size(137, 24);
             this.btnRegresion.TabIndex = 12;
@@ -343,7 +345,7 @@ namespace EstadisticaDescriptiva
             // txtCovarianza
             // 
             this.txtCovarianza.Enabled = false;
-            this.txtCovarianza.Location = new System.Drawing.Point(1459, 382);
+            this.txtCovarianza.Location = new System.Drawing.Point(25, 186);
             this.txtCovarianza.Name = "txtCovarianza";
             this.txtCovarianza.Size = new System.Drawing.Size(82, 27);
             this.txtCovarianza.TabIndex = 17;
@@ -352,7 +354,7 @@ namespace EstadisticaDescriptiva
             // txtCoeficiente
             // 
             this.txtCoeficiente.Enabled = false;
-            this.txtCoeficiente.Location = new System.Drawing.Point(1547, 382);
+            this.txtCoeficiente.Location = new System.Drawing.Point(113, 186);
             this.txtCoeficiente.Name = "txtCoeficiente";
             this.txtCoeficiente.Size = new System.Drawing.Size(71, 27);
             this.txtCoeficiente.TabIndex = 18;
@@ -407,7 +409,7 @@ namespace EstadisticaDescriptiva
             // 
             this.lblCovarianza.AutoSize = true;
             this.lblCovarianza.Enabled = false;
-            this.lblCovarianza.Location = new System.Drawing.Point(1459, 359);
+            this.lblCovarianza.Location = new System.Drawing.Point(25, 163);
             this.lblCovarianza.Name = "lblCovarianza";
             this.lblCovarianza.Size = new System.Drawing.Size(85, 20);
             this.lblCovarianza.TabIndex = 24;
@@ -418,7 +420,7 @@ namespace EstadisticaDescriptiva
             // 
             this.lblCoef.AutoSize = true;
             this.lblCoef.Enabled = false;
-            this.lblCoef.Location = new System.Drawing.Point(1547, 359);
+            this.lblCoef.Location = new System.Drawing.Point(113, 163);
             this.lblCoef.Name = "lblCoef";
             this.lblCoef.Size = new System.Drawing.Size(75, 20);
             this.lblCoef.TabIndex = 25;
@@ -429,7 +431,7 @@ namespace EstadisticaDescriptiva
             // 
             this.lblMediaY.AutoSize = true;
             this.lblMediaY.Enabled = false;
-            this.lblMediaY.Location = new System.Drawing.Point(1536, 303);
+            this.lblMediaY.Location = new System.Drawing.Point(102, 107);
             this.lblMediaY.Name = "lblMediaY";
             this.lblMediaY.Size = new System.Drawing.Size(66, 20);
             this.lblMediaY.TabIndex = 29;
@@ -440,7 +442,7 @@ namespace EstadisticaDescriptiva
             // 
             this.lblMediaX.AutoSize = true;
             this.lblMediaX.Enabled = false;
-            this.lblMediaX.Location = new System.Drawing.Point(1459, 303);
+            this.lblMediaX.Location = new System.Drawing.Point(25, 107);
             this.lblMediaX.Name = "lblMediaX";
             this.lblMediaX.Size = new System.Drawing.Size(67, 20);
             this.lblMediaX.TabIndex = 28;
@@ -450,7 +452,7 @@ namespace EstadisticaDescriptiva
             // txtMediaY
             // 
             this.txtMediaY.Enabled = false;
-            this.txtMediaY.Location = new System.Drawing.Point(1536, 326);
+            this.txtMediaY.Location = new System.Drawing.Point(102, 130);
             this.txtMediaY.Name = "txtMediaY";
             this.txtMediaY.Size = new System.Drawing.Size(71, 27);
             this.txtMediaY.TabIndex = 27;
@@ -459,7 +461,7 @@ namespace EstadisticaDescriptiva
             // txtMediaX
             // 
             this.txtMediaX.Enabled = false;
-            this.txtMediaX.Location = new System.Drawing.Point(1459, 326);
+            this.txtMediaX.Location = new System.Drawing.Point(25, 130);
             this.txtMediaX.Name = "txtMediaX";
             this.txtMediaX.Size = new System.Drawing.Size(71, 27);
             this.txtMediaX.TabIndex = 26;
@@ -761,7 +763,6 @@ namespace EstadisticaDescriptiva
             // btnBidimensional
             // 
             this.btnBidimensional.AutoSize = true;
-            this.btnBidimensional.Enabled = false;
             this.btnBidimensional.Location = new System.Drawing.Point(161, 32);
             this.btnBidimensional.Name = "btnBidimensional";
             this.btnBidimensional.Size = new System.Drawing.Size(125, 24);
@@ -901,11 +902,31 @@ namespace EstadisticaDescriptiva
             this.txtCoefVariacion.Size = new System.Drawing.Size(120, 32);
             this.txtCoefVariacion.TabIndex = 57;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnRegresion);
+            this.groupBox3.Controls.Add(this.btnCovarianza);
+            this.groupBox3.Controls.Add(this.txtMediaX);
+            this.groupBox3.Controls.Add(this.txtCovarianza);
+            this.groupBox3.Controls.Add(this.txtCoeficiente);
+            this.groupBox3.Controls.Add(this.lblCovarianza);
+            this.groupBox3.Controls.Add(this.lblCoef);
+            this.groupBox3.Controls.Add(this.txtMediaY);
+            this.groupBox3.Controls.Add(this.lblMediaX);
+            this.groupBox3.Controls.Add(this.lblMediaY);
+            this.groupBox3.Location = new System.Drawing.Point(1324, 189);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(300, 264);
+            this.groupBox3.TabIndex = 54;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Parámetros de centralización";
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1636, 614);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblCoefVariacion);
             this.Controls.Add(this.txtCoefVariacion);
             this.Controls.Add(this.lblDesvMedia);
@@ -927,28 +948,18 @@ namespace EstadisticaDescriptiva
             this.Controls.Add(this.txtModa);
             this.Controls.Add(this.lblEne);
             this.Controls.Add(this.txtEne);
-            this.Controls.Add(this.lblMediaY);
-            this.Controls.Add(this.lblMediaX);
-            this.Controls.Add(this.txtMediaY);
-            this.Controls.Add(this.txtMediaX);
-            this.Controls.Add(this.lblCoef);
-            this.Controls.Add(this.lblCovarianza);
             this.Controls.Add(this.lblTipica);
             this.Controls.Add(this.lblVarianza);
             this.Controls.Add(this.lblModa);
             this.Controls.Add(this.lblMedia);
             this.Controls.Add(this.lblMediana);
-            this.Controls.Add(this.txtCoeficiente);
-            this.Controls.Add(this.txtCovarianza);
             this.Controls.Add(this.txtDesviacionTipica);
             this.Controls.Add(this.txtVarianza);
             this.Controls.Add(this.txtMedia);
-            this.Controls.Add(this.btnCovarianza);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtMediana);
             this.Controls.Add(this.btnCalcularOrdenar);
             this.Controls.Add(this.dgvDatos);
-            this.Controls.Add(this.btnRegresion);
             this.Controls.Add(this.dgvColeccion);
             this.Controls.Add(this.dgvBidimensional);
             this.Name = "Home";
@@ -962,6 +973,8 @@ namespace EstadisticaDescriptiva
             this.groupBox2.PerformLayout();
             this.gpdispersion.ResumeLayout(false);
             this.gpdispersion.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1048,5 +1061,6 @@ namespace EstadisticaDescriptiva
         private System.Windows.Forms.Label lblDesvMedia;
         private System.Windows.Forms.Label lblCoefVariacion;
         private System.Windows.Forms.TextBox txtCoefVariacion;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }

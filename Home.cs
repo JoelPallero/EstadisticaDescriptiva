@@ -30,7 +30,7 @@ namespace EstadisticaDescriptiva
         double comparacionFrecAcum = 0;
         double mediana = 0;
         double PartialMe = 0;
-        double media = 0;
+        double mediaX = 0;
         double mediaY= 0;
         double desviacionMedia = 0;
         double desviacionTipica = 0;
@@ -50,7 +50,6 @@ namespace EstadisticaDescriptiva
             switch (calculo)
             {
                 case 0:
-
                     #region intervalo simple
                     HabilitarCheks();
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
@@ -75,8 +74,8 @@ namespace EstadisticaDescriptiva
                     dgvColeccion.Rows.Add(mayor);
                     FrecuenciaAbsoluta();
                     #endregion
-
                     break;
+
                 case 1:
 
                     #region Intervalos compuestos
@@ -86,48 +85,28 @@ namespace EstadisticaDescriptiva
                     #endregion
 
                     break;
+
                 case 2:
 
                     #region Bidimensional
-                    //if (!btnBidimensional.Checked)
-                    //{
-                    //    HabilitarCheks();
-                    //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    //    coleccionX = dgvDatos.Columns.Count;
+                    HabilitarChkBid();
+                    string coleccionBi;
+                    int r = 0;
+                    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
+                    coleccionX = dgvDatos.Columns.Count;
+                    dgvBidimensional.Rows.Add(coleccionX + 1);
 
-                    //    for (int i = 0; i < coleccionY; i++)
-                    //    {
-                    //        for (int j = 0; j < coleccionX; j++)
-                    //        {
-                    //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-                    //            if (coleccionDato > mayor)
-                    //            {
-                    //                mayor = coleccionDato;
-                    //            }
-                    //        }
-                    //    }
-
-                    //    dgvColeccion.RowCount = mayor - 3;
-                    //    mayor++;
-                    //    FrecuenciaAbsoluta();
-                    //}
-                    //else
-                    //{
-                    //    HabilitarChkBid();
-                    //    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    //    coleccionX = dgvDatos.Columns.Count;
-
-                    //    for (int j = 0; j < coleccionX; j++)
-                    //    {
-                    //        for (int i = 0; i < coleccionY; i++)
-                    //        {
-                    //            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-                    //            dgvBidimensional.Rows[j].Cells[i].Value = coleccionDato.ToString();
-                    //        }
-                    //        dgvBidimensional.Rows.Add();
-                    //    }
-                    //}
+                    for (int j = 0; j < coleccionX; j++)
+                    {
+                        for (int i = 0; i < coleccionY; i++)
+                        {
+                            coleccionBi = dgvDatos.Rows[i].Cells[j].Value.ToString();
+                            dgvBidimensional.Rows[j].Cells[i].Value = coleccionBi;
+                            r += Convert.ToInt32(coleccionBi);
+                        }
+                        dgvBidimensional.Rows[j].Cells[coleccionX + 1].Value = r.ToString();
+                        r = 0;
+                    }
                     #endregion
 
                     break;
@@ -240,8 +219,8 @@ namespace EstadisticaDescriptiva
             }
             dgvColeccion.Rows[mayor].Cells[4].Value = resSumatoria.ToString();
 
-            media = resSumatoria / N;
-            txtMedia.Text = media.ToString("N3");
+            mediaX = resSumatoria / N;
+            txtMedia.Text = mediaX.ToString("N3");
         }
 
         private void Moda()
@@ -282,7 +261,7 @@ namespace EstadisticaDescriptiva
                 {
                     x = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value);
                     f = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
-                    r = (x - media) * f;
+                    r = (x - mediaX) * f;
                     sum += r;
                     dgvColeccion.Rows[i].Cells[6].Value = r.ToString("N2");
                     x = 0;
@@ -317,7 +296,7 @@ namespace EstadisticaDescriptiva
             }
             dgvColeccion.Rows[mayor].Cells[5].Value = resSumatoria.ToString();
 
-            varianza = (resSumatoria / N) - (media * media); //es un tema hacer potencias acá así que solo la multiplicamos así.
+            varianza = (resSumatoria / N) - (mediaX * mediaX); //es un tema hacer potencias acá así que solo la multiplicamos así.
 
             txtVarianza.Text = varianza.ToString("N3");
         }
@@ -329,7 +308,7 @@ namespace EstadisticaDescriptiva
 
         private void CoefVariacion()
         {
-            txtCoefVariacion.Text = (desviacionTipica / media).ToString("N3");
+            txtCoefVariacion.Text = (desviacionTipica / mediaX).ToString("N3");
         }
 
 
@@ -375,7 +354,14 @@ namespace EstadisticaDescriptiva
                 }
                 else
                 {
-                    empty = true;
+                    if (dgvDatos.Rows.Count > 0 && btnBidimensional.Checked == true)
+                    {
+                        empty = false;
+                    }
+                    else
+                    {
+                        empty = true;
+                    }
                 }
             }
         }
@@ -392,16 +378,25 @@ namespace EstadisticaDescriptiva
             btnModa.Enabled = true;
         }
 
+        private void HabilitarChkBid() //Esto está pensado para los bidimensionales. Aún no se usa.
+        {
+            btnRegresion.Enabled = true;
+        }
+
+        private void HabilitarCompuestos()
+        {
+            dgvDatos.Enabled = false;
+        }
+        #endregion
+
+        #region Limpieza de controles
+
         private void LimpiarDGV()
         {
-            //limpio los dgv que se encuentren en todo el formulario
-            //Son 3, pero 1 está encima del otro, así que no se nota.
-            //Es con el que quiero hacer los cálculos de covarianza y eso.
-            foreach (var dgv in this.Controls.OfType<DataGridView>()) //declaro una variable y la nombro "dgv"
-            {                                                         //Y con el resto digo que así voy a llamar
-                dgv.Rows.Clear();                                     //A todos los dgv que hay en este control(form)
-                //y con esto le limpio todas las filas para que quede pelao..
-            }   //El mismo procedimiento se cumple con los otros foreach. Solo que voy cambiando los controles que quiero manejar
+            foreach (var dgv in this.Controls.OfType<DataGridView>())
+            {
+                dgv.Rows.Clear();
+            }
         }
 
         private void LimpiarTxt()
@@ -435,7 +430,7 @@ namespace EstadisticaDescriptiva
             comparacionFrecAcum = 0;
             mediana = 0;
             PartialMe = 0;
-            media = 0;
+            mediaX = 0;
             mediaY = 0;
             desviacionTipica = 0;
             varianza = 0;
@@ -443,6 +438,20 @@ namespace EstadisticaDescriptiva
             coefcorrelacion = 0;
             desviacionMedia = 0;
         }
+
+        private void QuitarChecks()
+        {
+            foreach (var chk in gpdispersion.Controls.OfType<CheckBox>())
+            {
+                chk.Checked = false;
+                chk.Enabled = false;
+            }
+        }
+
+        #endregion
+
+
+        #region checkearluego
 
         private void HabilitarBidimension() //Al igual que acá, es mucho reseteo de controles, pero se puede hacer esto:
         {                                   //Seccionar ciertos controles en un groupbox, y luego recoorerlos con un foreach
@@ -522,43 +531,8 @@ namespace EstadisticaDescriptiva
             }
         }
 
-        private void HabilitarChkBid() //Esto está pensado para los bidimensionales. Aún no se usa.
-        {
-            btnRegresion.Enabled = true;
-        }
-
-        private void checkeoButton() //Esto también es para cuando tenga ya la opción bidimensional. Por ahora no lo encapsulé.
-        {                            //solo lo dejé directamente en el evento click del boton
-            if (btnCalcularOrdenar.Text == "Limpiar")
-            {
-                ResetVariables();
-                LimpiarTxt();
-                LimpiarDGV();
-                LimpiarChk();
-                btnCalcularOrdenar.Text = "Agrupar";
-            }
-            else
-            {
-                OrdenarDatos();
-                btnCalcularOrdenar.Text = "Limpiar";
-            }
-        }
-
-        private void HabilitarCompuestos()
-        {
-            dgvDatos.Enabled = false;
-        }
-
-        private void QuitarChecks()
-        {
-            foreach (var chk in gpdispersion.Controls.OfType<CheckBox>())
-            {
-                chk.Checked = false;
-                chk.Enabled = false;
-            }
-        }
-
         #endregion
+        
 
         #region Eventos
 
@@ -681,7 +655,19 @@ namespace EstadisticaDescriptiva
 
         private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
         {
-            HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
+            if (!btnBidimensional.Checked)
+            {
+                calculo = 0;
+                dgvBidimensional.Visible = false;
+                dgvColeccion.Visible = true;
+            }
+            else
+            {
+                calculo = 2;
+                dgvBidimensional.Visible = true;
+                dgvColeccion.Visible = false;
+            }
+            //HabilitarBidimension(); //Este es el chk arriba de boton para habilitar las bidimensionales y el otro dgv. Pero lo tengo deshabilitado.
         }
 
         #endregion
