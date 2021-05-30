@@ -139,7 +139,21 @@ namespace EstadisticaDescriptiva
                     string coleccionBid;
                     int r = 0;
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    coleccionX = Convert.ToInt32(dgvDatos.Columns.Count);
+
+                    // Este método me cuenta solo las celdas que tienen datos, pero consecutivas.
+                    // Si hay una celda vacía, se frena ahí y esa cantidad contada va a ser la cantidad
+                    // de columnas que tenga de datos.
+
+                    do
+                    {
+                        coleccionBid = dgvDatos.Rows[0].Cells[coleccionX].Value.ToString();
+                        coleccionX++;
+
+                    } while (dgvDatos.Rows[0].Cells[coleccionX].Value != null);
+                    coleccionBid = string.Empty;
+
+                    //
+
                     dgvBidimensional.Rows.Add(coleccionX + 1);
                     N = coleccionX;
                     txtEne.Text = N.ToString();
