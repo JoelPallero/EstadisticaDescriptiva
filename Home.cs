@@ -84,7 +84,6 @@ namespace EstadisticaDescriptiva
                     FrecuenciaAcumulada();
                     #endregion
                     break;
-
                 case 1:
                     #region Intervalos compuestos
                     HabilitarDGVcoleccion();
@@ -132,7 +131,6 @@ namespace EstadisticaDescriptiva
                     FrecuenciaAcumulada();
                     #endregion
                     break;
-
                 case 2:
                     #region Bidimensional
                     HabilitarDGVBidi();
@@ -225,7 +223,6 @@ namespace EstadisticaDescriptiva
                     txtEne.Text = N.ToString();
 
                     #endregion
-
                     break;
                 case 2:
                     #region Bidimensional
