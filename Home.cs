@@ -18,6 +18,7 @@ namespace EstadisticaDescriptiva
 
         #region Variables
         bool empty = true;
+        string coleccionBid;
         int ordenadorCol = 0;
         int ordenadorRow = 0;
         int contador = 0;
@@ -26,6 +27,7 @@ namespace EstadisticaDescriptiva
         int coleccionDato = 0;
         int coleccionY = 0;
         int coleccionX = 0;
+        int contadorCol = 0;
         double N = 0;
         double comparacionFrecAcum = 0;
         double mediana = 0;
@@ -67,13 +69,16 @@ namespace EstadisticaDescriptiva
                     {
                         for (int j = 0; j < coleccionX; j++)
                         {
-                            //Acá cuento los datos para ir ordenando.
-                            coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-                            if (coleccionDato > mayor)
+                            if (dgvDatos.Rows[i].Cells[j].Value != null)
                             {
-                                //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
-                                mayor = coleccionDato;
+                                //Acá cuento los datos para ir ordenando.
+                                coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                                if (coleccionDato > mayor)
+                                {
+                                    //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
+                                    mayor = coleccionDato;
+                                }
                             }
                         }
                     }
@@ -134,7 +139,6 @@ namespace EstadisticaDescriptiva
                 case 2:
                     #region Bidimensional
                     HabilitarDGVBidi();
-                    string coleccionBid;
                     int r = 0;
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
 
@@ -232,6 +236,59 @@ namespace EstadisticaDescriptiva
             }
 
         }
+        private void FrecuenciaAcumulada()
+        {
+            int reemplazo;
+            int reemplazo2;
+
+            switch (calculo)
+            {
+                case 0:
+                    #region intervalo simple
+                    for (int i = 0; i < mayor; i++)
+                    {
+                        if (ordenadorRow == 0)
+                        {
+                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = dgvColeccion.Rows[ordenadorRow].Cells[2].Value;
+                        }
+                        else
+                        {
+                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[3].Value);
+                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[2].Value);
+                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = (reemplazo + reemplazo2).ToString();
+                        }
+                        ordenadorRow++;
+                    }
+                    ordenadorRow = 0;
+                    #endregion
+                    break;
+
+                case 1:
+                    #region Intervalos agrupados
+                    for (int i = 0; i < coleccionX; i++)
+                    {
+                        if (i == 0)
+                        {
+                            dgvColeccion.Rows[i].Cells[3].Value = dgvColeccion.Rows[i].Cells[2].Value;
+                        }
+                        else
+                        {
+                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[i - 1].Cells[3].Value);
+                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                            dgvColeccion.Rows[i].Cells[3].Value = (reemplazo + reemplazo2).ToString();
+                        }
+                    }
+
+                    #endregion
+                    break;
+                //no se si lo necesito a este case, pero por las dudas lo tengo listo.
+                case 2:
+                    #region Bidimensional
+
+                    #endregion
+                    break;
+            }
+        }
         private void Mediana()
         {
             if ((N % 2) == 0)
@@ -311,59 +368,6 @@ namespace EstadisticaDescriptiva
             {
 
             }
-        }
-        private void FrecuenciaAcumulada()
-        {
-            int reemplazo;
-            int reemplazo2;
-
-            switch (calculo)
-            {
-                case 0:
-                    #region intervalo simple
-                    for (int i = 0; i < mayor; i++)
-                    {
-                        if (ordenadorRow == 0)
-                        {
-                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = dgvColeccion.Rows[ordenadorRow].Cells[2].Value;
-                        }
-                        else
-                        {
-                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow - 1].Cells[3].Value);
-                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[ordenadorRow].Cells[2].Value);
-                            dgvColeccion.Rows[ordenadorRow].Cells[3].Value = (reemplazo + reemplazo2).ToString();
-                        }
-                        ordenadorRow++;
-                    }
-                    ordenadorRow = 0;
-                    #endregion
-                    break;
-
-                case 1:
-                    #region Intervalos agrupados
-                    for (int i = 0; i < coleccionX; i++)
-                    {
-                        if (i == 0)
-                        {
-                            dgvColeccion.Rows[i].Cells[3].Value = dgvColeccion.Rows[i].Cells[2].Value;
-                        }
-                        else
-                        {
-                            reemplazo = Convert.ToInt32(dgvColeccion.Rows[i - 1].Cells[3].Value);
-                            reemplazo2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
-                            dgvColeccion.Rows[i].Cells[3].Value = (reemplazo + reemplazo2).ToString();
-                        }
-                    }
-
-                    #endregion
-                    break;
-                //no se si lo necesito a este case, pero por las dudas lo tengo listo.
-                case 2:
-                    #region Bidimensional
-                    
-                    #endregion
-                    break;
-            }            
         }
         private void Media()
         {

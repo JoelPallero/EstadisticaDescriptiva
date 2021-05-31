@@ -906,7 +906,7 @@ namespace EstadisticaDescriptiva
             this.txtIntervaloMediana.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtIntervaloMediana.Location = new System.Drawing.Point(1098, 149);
             this.txtIntervaloMediana.Name = "txtIntervaloMediana";
-            this.txtIntervaloMediana.Size = new System.Drawing.Size(289, 32);
+            this.txtIntervaloMediana.Size = new System.Drawing.Size(398, 32);
             this.txtIntervaloMediana.TabIndex = 60;
             // 
             // label2
@@ -921,7 +921,7 @@ namespace EstadisticaDescriptiva
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1393, 126);
+            this.label3.Location = new System.Drawing.Point(1502, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 20);
             this.label3.TabIndex = 62;
@@ -930,9 +930,9 @@ namespace EstadisticaDescriptiva
             // txtAmplitud
             // 
             this.txtAmplitud.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtAmplitud.Location = new System.Drawing.Point(1393, 149);
+            this.txtAmplitud.Location = new System.Drawing.Point(1502, 149);
             this.txtAmplitud.Name = "txtAmplitud";
-            this.txtAmplitud.Size = new System.Drawing.Size(88, 32);
+            this.txtAmplitud.Size = new System.Drawing.Size(121, 32);
             this.txtAmplitud.TabIndex = 61;
             // 
             // Home
