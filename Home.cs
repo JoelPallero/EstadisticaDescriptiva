@@ -41,10 +41,10 @@ namespace EstadisticaDescriptiva
         double coefcorrelacion = 0;
         int calculo;
 
-        // Estas van a servir para separar los límites superior e inferior
-
+        //Estas vriables sirven para trabajar con los límites superior e inferior
         double a = 0;
         bool carga = true;
+
         //Se elije un caracter delimitador
         char[] delimitador = { ' ', ':', ';', '-', '\\' };
         double amplitud;
@@ -402,6 +402,7 @@ namespace EstadisticaDescriptiva
                     #endregion
                     break;
                 case 1:
+
                     for (int i = 0; i < coleccionX; i++)
                     {
                         for (int j = 1; j < 2; j++)
@@ -491,6 +492,32 @@ namespace EstadisticaDescriptiva
         }
         private void Varianza()
         {
+            switch (calculo)
+            {
+                case 0:
+                    #region unidimensional
+                    VarianzaUnidimensional();
+                    #endregion
+                    break;
+                case 1:
+                    #region Unidimensional Agrupada
+                    VarianzaUnidimensional();
+                    #endregion
+                    break;
+                case 2:
+                    #region Bidimensional
+
+                    double sumaX = Convert.ToDouble(dgvBidimensional.Rows[coleccionX].Cells[3].Value);
+                    double sumaY = Convert.ToDouble(dgvBidimensional.Rows[coleccionX].Cells[4].Value);
+                    txtVarianzaX.Text = ((sumaX / N) - (mediaX * mediaX)).ToString("N3");
+                    txtVarianzaY.Text = ((sumaY / N) - (mediaY * mediaY)).ToString("N3");
+
+                    #endregion
+                    break;
+            }            
+        }
+        private void VarianzaUnidimensional()
+        {
             int resAcum = 0;
             int resMulti = 0;
             int resSumatoria = 0;
@@ -515,8 +542,21 @@ namespace EstadisticaDescriptiva
         }
         private void DesviacionTipica()
         {
-            desviacionTipica = Math.Sqrt(varianza);
-            txtDesviacionTipica.Text = desviacionTipica.ToString("N3");
+            switch (calculo)
+            {
+                case 0:
+                    desviacionTipica = Math.Sqrt(varianza);
+                    txtDesviacionTipica.Text = desviacionTipica.ToString("N3");
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    #region Bidimensional
+                    txtDesvTipicaX.Text = (Math.Sqrt(Convert.ToDouble(txtVarianzaX.Text))).ToString("N3");
+                    txtDesvTipicaY.Text = (Math.Sqrt(Convert.ToDouble(txtVarianzaY.Text))).ToString("N3");
+                    #endregion
+                    break;
+            }
         }
         private void CoefVariacion()
         {
@@ -631,19 +671,19 @@ namespace EstadisticaDescriptiva
         }
         private void ChequearDGV()
         {
-            if (dgvDatos.Rows.Count > 0 && chkSimple.Checked == true)
+            if (dgvDatos.Rows.Count > 0 && chkUnidimensional.Checked == true)
             {
                 empty = false;
             }
             else
             {
-                if (dgvColeccion.Rows.Count > 0 && chkCompuesto.Checked == true)
+                if (dgvColeccion.Rows.Count > 0 && chkUniAgrupado.Checked == true)
                 {
                     empty = false;
                 }
                 else
                 {
-                    if (dgvDatos.Rows.Count > 0 && btnBidimensional.Checked == true)
+                    if (dgvDatos.Rows.Count > 0 && chkBidimensional.Checked == true)
                     {
                         empty = false;
                     }
@@ -787,7 +827,7 @@ namespace EstadisticaDescriptiva
         }
         private void btnMedia_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkSimple.Checked)
+            if (chkUnidimensional.Checked)
             {
                 if (!btnMedia.Checked)
                 {
@@ -867,16 +907,19 @@ namespace EstadisticaDescriptiva
         {
             calculo = 0;
             gpBidimensional.Enabled = false;
+            btnMediana.Enabled = true;
         }
         private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 1;
             gpBidimensional.Enabled = false;
+            btnMediana.Enabled = true;
         }
         private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 2;
             gpBidimensional.Enabled = true;
+            btnMediana.Enabled = false;
         }
         private void chkDesviacionMedia_CheckedChanged(object sender, EventArgs e)
         {
