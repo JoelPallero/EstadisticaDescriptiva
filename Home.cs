@@ -188,11 +188,14 @@ namespace EstadisticaDescriptiva
                         {
                             for (int j = 0; j < coleccionX; j++)
                             {
-                                coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-                                if (contador == coleccionDato)
+                                if (dgvDatos.Rows[i].Cells[j].Value != null)
                                 {
-                                    repetidor++;
+                                    coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+
+                                    if (contador == coleccionDato)
+                                    {
+                                        repetidor++;
+                                    }
                                 }
                             }
                         }
@@ -863,14 +866,17 @@ namespace EstadisticaDescriptiva
         private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 2;
+            gpBidimensional.Enabled = false;
         }
         private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 1;
+            gpBidimensional.Enabled = false;
         }
         private void chkSimple_CheckedChanged(object sender, EventArgs e)
         {
             calculo = 0;
+            gpBidimensional.Enabled = false;
         }
         private void chkDesviacionMedia_CheckedChanged(object sender, EventArgs e)
         {
