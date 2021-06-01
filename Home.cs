@@ -863,9 +863,9 @@ namespace EstadisticaDescriptiva
         {
             Decil();
         }
-        private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
+        private void chkSimple_CheckedChanged(object sender, EventArgs e)
         {
-            calculo = 2;
+            calculo = 0;
             gpBidimensional.Enabled = false;
         }
         private void chkCompuesto_CheckedChanged(object sender, EventArgs e)
@@ -873,10 +873,10 @@ namespace EstadisticaDescriptiva
             calculo = 1;
             gpBidimensional.Enabled = false;
         }
-        private void chkSimple_CheckedChanged(object sender, EventArgs e)
+        private void btnBidimensional_CheckedChanged(object sender, EventArgs e)
         {
-            calculo = 0;
-            gpBidimensional.Enabled = false;
+            calculo = 2;
+            gpBidimensional.Enabled = true;
         }
         private void chkDesviacionMedia_CheckedChanged(object sender, EventArgs e)
         {
