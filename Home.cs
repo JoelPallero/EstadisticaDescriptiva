@@ -139,7 +139,7 @@ namespace EstadisticaDescriptiva
                 case 2:
                     #region Bidimensional
                     HabilitarDGVBidi();
-                    int r = 0;
+                    double r = 0;
                     coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
 
                     // Este método me cuenta solo las celdas que tienen datos, pero consecutivas.
@@ -444,7 +444,9 @@ namespace EstadisticaDescriptiva
             //El que se repite más veces
             int frecuenciaModa = 0;
             int datoModa = 0;
+            int datoModa2 = 0;
             int moda = 0;
+            bool bimodal = false;
             for (int i = 0; i < mayor; i++)
             {
                 for (int j = 0; j < 1; j++)
@@ -460,8 +462,30 @@ namespace EstadisticaDescriptiva
                         datoModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value); //y me guardo el dato x de esa fila.
                     }
                 }                
-            }                           //dato x                                                   //frecuencia
-            txtModa.Text = "El dato " + datoModa.ToString() + " tiene la mayor frecuencia con: " + moda.ToString();
+            }
+
+            for (int i = 0; i < mayor; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
+                    if (frecuenciaModa == moda)
+                    {
+                        datoModa2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);
+                        bimodal = true;
+                    }
+                }
+            }
+
+            if (bimodal)
+            {
+                txtModa.Text = "Es bimodal con los datos " + datoModa + " y " + datoModa2 + " repetidos " + moda + " veces.";
+            }
+            else
+            {
+                //dato x                                                   //frecuencia
+                txtModa.Text = "El dato " + datoModa.ToString() + " tiene la mayor frecuencia con: " + moda.ToString();
+            }
         }
         private void DesviacionMedia()
         {
@@ -520,7 +544,8 @@ namespace EstadisticaDescriptiva
         {
             int resAcum = 0;
             int resMulti = 0;
-            int resSumatoria = 0;
+            double resSumatoria = 0;
+            mayor = coleccionX;
             for (int i = 0; i < mayor; i++)
             {
                 for (int j = 1; j < 2; j++)
@@ -528,7 +553,7 @@ namespace EstadisticaDescriptiva
                     resMulti = Convert.ToInt32(dgvColeccion.Rows[i].Cells[j].Value); //Esto es x de cada fila
                     resAcum = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);  //Esto es f de cada fila
                     resAcum = (resMulti * resMulti) * resAcum;  //Acá está x al cuadrado por f
-                    resSumatoria += resAcum; //Esto es la sumatora de x al cuadrado por f
+                    resSumatoria += Convert.ToDouble(resAcum); //Esto es la sumatora de x al cuadrado por f
                     dgvColeccion.Rows[i].Cells[5].Value = resAcum.ToString();
                     resMulti = 0;
                     resAcum = 0;
@@ -579,10 +604,10 @@ namespace EstadisticaDescriptiva
         }
         private void Covarianza()
         {
-            int x = 0;
-            int y = 0;
-            int multi = 0;
-            int sum = 0;
+            double x = 0;
+            double y = 0;
+            double multi = 0;
+            double sum = 0;
             for (int i = 0; i < coleccionX; i++)
             {
                 for (int j = 0; j < 1; j++)
