@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace EstadisticaDescriptiva
 {
-    public partial class txtMostrador : Form
+    public partial class Home : Form
     {
-        public txtMostrador()
+        public Home()
         {
             InitializeComponent();
         }
@@ -34,10 +34,10 @@ namespace EstadisticaDescriptiva
         double mediana = 0;
         double PartialMe = 0;
         double mediaX = 0;
-        double mediaY= 0;
+        double mediaY = 0;
         double desviacionMedia = 0;
         double desviacionTipica = 0;
-        double varianza = 0;        
+        double varianza = 0;
         double covarianza = 0;
         double coefcorrelacion = 0;
         int calculo;
@@ -64,22 +64,27 @@ namespace EstadisticaDescriptiva
                     #region Unidimensional
                     HabilitarDGVcoleccion();
 
-                    string[] datos = txtDatos.Text.Split(delimitador);
-                    string dato;
-                    int count = 0;
-                    int contadorFila = 0;
-                    contadorCol = 1;
-                    int contador = datos.Length;
-                    dgvColeccion.Rows.Add(contador + 1);
+                    
 
-                    foreach (var num in datos.GroupBy(x => x))
-                    {
-                        dato = num.Key;
-                        count = num.Count();
-                        dgvColeccion.Rows[contadorFila].Cells[contadorCol].Value = dato;
-                        dgvColeccion.Rows[contadorFila].Cells[contadorCol + 1].Value = count;
-                        contadorFila++;
-                    }
+
+
+
+
+                    //string[] datos = txtDatos.Text.Split(delimitador);
+                    //string dato;
+                    //int count = 0;
+                    //int contadorFila = 0;
+                    //contadorCol = 1;
+                    //int contador = datos.Length;
+                    //dgvColeccion.Rows.Add(contador + 1);                    
+                    //foreach (var num in datos.GroupBy(x => x))
+                    //{
+                    //    dato = num.Key;
+                    //    count = num.Count();
+                    //    dgvColeccion.Rows[contadorFila].Cells[contadorCol + 1].Value = dato;
+                    //    dgvColeccion.Rows[contadorFila].Cells[contadorCol + 1].Value = count;
+                    //    contadorFila++;
+                    //}
 
                     #endregion
                     break;
@@ -104,7 +109,7 @@ namespace EstadisticaDescriptiva
                                 //Necesito tener 2 numeros para sumarlos
                                 //para luego poder dividirlos
                                 // por lo que creo una variable booleana y le voy cambiando el valor
-                                
+
                                 if (carga)
                                 {
                                     //si es verdadero, le asigno el primer valor y cambio el valor booleano
@@ -120,7 +125,7 @@ namespace EstadisticaDescriptiva
                             }
 
                             //Ahora divido la suma sobre 2 y obtengo el dato x y lo coloco en la siguiente columna
-                            dgvColeccion.Rows[j].Cells[1].Value = (a/2).ToString();
+                            dgvColeccion.Rows[j].Cells[1].Value = (a / 2).ToString();
                         }
                     }
                     #endregion
@@ -171,42 +176,42 @@ namespace EstadisticaDescriptiva
             {
                 case 0:
                     #region Unidimensional
-                    for (int x = 0; contador < mayor; x++)
-                    {
-                        for (int i = 0; i < coleccionY; i++)
-                        {
-                            for (int j = 0; j < (coleccionX - 1); j++)
-                            {
-                                if (dgvDatos.Rows[i].Cells[j].Value != null)
-                                {
-                                    coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
+                    //for (int x = 0; contador < mayor; x++)
+                    //{
+                    //    for (int i = 0; i < coleccionY; i++)
+                    //    {
+                    //        for (int j = 0; j < (coleccionX - 1); j++)
+                    //        {
+                    //            if (dgvDatos.Rows[i].Cells[j].Value != null)
+                    //            {
+                    //                coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
 
-                                    if (contador == coleccionDato)
-                                    {
-                                        repetidor++;
-                                    }
-                                }
-                            }
-                        }
-                        // hacer que mientras un dato no se repita, no se escriba en el dgv
+                    //                if (contador == coleccionDato)
+                    //                {
+                    //                    repetidor++;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //    // hacer que mientras un dato no se repita, no se escriba en el dgv
 
-                        if (repetidor > 0)
-                        {
-                            dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
-                            dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
-                            //sumatoria de las frecuencias
-                            N += repetidor;
-                            repetidor = 0;
-                            contador++;
-                            ordenadorRow++;
-                        }
-                    }
-                    coleccionY = 0;
-                    coleccionX = 0;
-                    coleccionDato = 0;
-                    txtEne.Text = N.ToString();
-                    dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
-                    ordenadorRow = 0;
+                    //    if (repetidor > 0)
+                    //    {
+                    //        dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
+                    //        dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
+                    //        //sumatoria de las frecuencias
+                    //        N += repetidor;
+                    //        repetidor = 0;
+                    //        contador++;
+                    //        ordenadorRow++;
+                    //    }
+                    //}
+                    //coleccionY = 0;
+                    //coleccionX = 0;
+                    //coleccionDato = 0;
+                    //txtEne.Text = N.ToString();
+                    //dgvColeccion.Rows[ordenadorRow].Cells[2].Value = N.ToString();
+                    //ordenadorRow = 0;
                     #endregion
                     break;
                 case 1:
@@ -304,7 +309,7 @@ namespace EstadisticaDescriptiva
                 PartialMe = comparacionFrecAcum - mediana;
                 if (PartialMe < 0)
                 {
-                    
+
                 }
                 i++;
             } while (PartialMe < 0);
@@ -313,7 +318,7 @@ namespace EstadisticaDescriptiva
                 case 0:
                     #region Unidimensional
 
-                    mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[1].Value);
+                    mediana = Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
 
                     while ((Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value)) == 0)
                     {
@@ -428,7 +433,7 @@ namespace EstadisticaDescriptiva
 
                     #endregion
                     break;
-            }            
+            }
         }
         private void Moda()
         {
@@ -446,13 +451,13 @@ namespace EstadisticaDescriptiva
                     //(por eso el 1 porque ese N° no cambia es la misma columna)
                     //esta variable la inicio en 0 y voy comparando si el dato que veo de la frec
                     //es mayor.
-                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value); 
+                    frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
                     if (frecuenciaModa > moda) //Si la frecuencia que voy viendo es mayor que el N° que tengo almacenada en "moda"
                     {
                         moda = frecuenciaModa; // entonces lo reemplazo.
                         datoModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value); //y me guardo el dato x de esa fila.
                     }
-                }                
+                }
             }
 
             for (int i = 0; i < mayor; i++)
@@ -532,7 +537,7 @@ namespace EstadisticaDescriptiva
 
                     #endregion
                     break;
-            }            
+            }
         }
         private void VarianzaUnidimensional()
         {
@@ -651,7 +656,7 @@ namespace EstadisticaDescriptiva
             dgvBidimensional.Rows[coleccionX].Cells[col].Value = sum.ToString();
             col++;
 
-            desvTipX = Convert.ToDouble((sum / N) - (mediaX * mediaX)); 
+            desvTipX = Convert.ToDouble((sum / N) - (mediaX * mediaX));
 
             x = 0;
             multi = 0;
@@ -813,7 +818,7 @@ namespace EstadisticaDescriptiva
             ChequearDGV();
             if (empty)
             {
-                MessageBox.Show("No hay datos ingresados","Grillas vacías", MessageBoxButtons.OK);
+                MessageBox.Show("No hay datos ingresados", "Grillas vacías", MessageBoxButtons.OK);
             }
             else
             {
@@ -828,22 +833,17 @@ namespace EstadisticaDescriptiva
                 else
                 {
                     OrdenarDatos();
-                    //FrecuenciaAbsoluta();
+                    FrecuenciaAbsoluta();
                     //FrecuenciaAcumulada();
                     //Mediana();
                     //Media();
                     //Moda();
-                    //DesviacionMedia();
-                    //DesviacionTipica();
-                    //CoefVariacion();
-                    //Covarianza();
-                    //CoeficienteCorrelacion();
                     btnCalcularOrdenar.Text = "Limpiar";
                 }
             }
         }
         private void btnMediana_CheckedChanged(object sender, EventArgs e)
-        {            
+        {
             if (!btnMediana.Checked)
             {
                 txtMediana.Text = string.Empty;
@@ -889,7 +889,7 @@ namespace EstadisticaDescriptiva
                 //por si alguien ignoraba esta opción de VS.
                 Moda(); //llamo al método de la moda (Ctrl + click izquierdo) y los lleva al médoto en cuestión)
             }
-        }           
+        }
         private void btnVarianza_CheckedChanged(object sender, EventArgs e)
         {
             if (!btnVarianza.Checked)
