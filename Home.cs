@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace EstadisticaDescriptiva
 {
-    public partial class Home : Form
+    public partial class txtMostrador : Form
     {
-        public Home()
+        public txtMostrador()
         {
             InitializeComponent();
         }
@@ -28,6 +28,7 @@ namespace EstadisticaDescriptiva
         int coleccionY = 0;
         int coleccionX = 0;
         int contadorCol = 0;
+        int contadorDatos = 0;
         double N = 0;
         double comparacionFrecAcum = 0;
         double mediana = 0;
@@ -46,7 +47,7 @@ namespace EstadisticaDescriptiva
         bool carga = true;
 
         //Se elije un caracter delimitador
-        char[] delimitador = { ' ', ':', ';', '-', '\\' };
+        char[] delimitador = { ' ', ':', ';', '-', '\\', ',' };
         double amplitud;
         string Lim;
         double Ls;
@@ -60,37 +61,30 @@ namespace EstadisticaDescriptiva
             switch (calculo)
             {
                 case 0:
-                    #region intervalo simple
+                    #region Unidimensional
                     HabilitarDGVcoleccion();
-                    coleccionY = Convert.ToInt32(dgvDatos.Rows.Count - 1);
-                    coleccionX = Convert.ToInt32(dgvDatos.Columns.Count);
 
-                    for (int i = 0; i < coleccionY; i++)
+                    string[] datos = txtDatos.Text.Split(delimitador);
+                    string dato;
+                    int count = 0;
+                    int contadorFila = 0;
+                    contadorCol = 1;
+                    int contador = datos.Length;
+                    dgvColeccion.Rows.Add(contador + 1);
+
+                    foreach (var num in datos.GroupBy(x => x))
                     {
-                        for (int j = 0; j < coleccionX; j++)
-                        {
-                            if (dgvDatos.Rows[i].Cells[j].Value != null)
-                            {
-                                //Acá cuento los datos para ir ordenando.
-                                coleccionDato = Convert.ToInt32(dgvDatos.Rows[i].Cells[j].Value);
-
-                                if (coleccionDato > mayor)
-                                {
-                                    //los guardo en esta variable "mayor" y así se cuántas filas voy a utilizar
-                                    mayor = coleccionDato;
-                                }
-                            }
-                        }
+                        dato = num.Key;
+                        count = num.Count();
+                        dgvColeccion.Rows[contadorFila].Cells[contadorCol].Value = dato;
+                        dgvColeccion.Rows[contadorFila].Cells[contadorCol + 1].Value = count;
+                        contadorFila++;
                     }
 
-                    mayor++; //Esto me sirve para color las sumatorias de cada dato en este N° de fila que queda guardado
-                    dgvColeccion.Rows.Add(mayor);
-                    FrecuenciaAbsoluta();
-                    FrecuenciaAcumulada();
                     #endregion
                     break;
                 case 1:
-                    #region Intervalos compuestos
+                    #region Unidimensional agrupado
                     HabilitarDGVcoleccion();
                     coleccionX = Convert.ToInt32(dgvColeccion.Rows.Count - 1);
                     dgvColeccion.Rows.Add(1);
@@ -127,13 +121,8 @@ namespace EstadisticaDescriptiva
 
                             //Ahora divido la suma sobre 2 y obtengo el dato x y lo coloco en la siguiente columna
                             dgvColeccion.Rows[j].Cells[1].Value = (a/2).ToString();
-
                         }
                     }
-
-                    //Terminado de sacar la equis, ahora calculo la frecuencia acumulada, ya que la frecuencia absoluta ya la tengo.
-                    FrecuenciaAbsoluta();
-                    FrecuenciaAcumulada();
                     #endregion
                     break;
                 case 2:
@@ -181,12 +170,12 @@ namespace EstadisticaDescriptiva
             switch (calculo)
             {
                 case 0:
-                    #region Simples
+                    #region Unidimensional
                     for (int x = 0; contador < mayor; x++)
                     {
                         for (int i = 0; i < coleccionY; i++)
                         {
-                            for (int j = 0; j < coleccionX; j++)
+                            for (int j = 0; j < (coleccionX - 1); j++)
                             {
                                 if (dgvDatos.Rows[i].Cells[j].Value != null)
                                 {
@@ -199,16 +188,18 @@ namespace EstadisticaDescriptiva
                                 }
                             }
                         }
-                        //agregar este dato en el otro dgv
-                        // y al lado su repeticion
+                        // hacer que mientras un dato no se repita, no se escriba en el dgv
 
-                        dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
-                        dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
-                        //sumatoria de las frecuencias
-                        N += repetidor;
-                        repetidor = 0;
-                        contador++;
-                        ordenadorRow++;
+                        if (repetidor > 0)
+                        {
+                            dgvColeccion.Rows[ordenadorRow].Cells[1].Value = contador.ToString();
+                            dgvColeccion.Rows[ordenadorRow].Cells[2].Value = repetidor.ToString();
+                            //sumatoria de las frecuencias
+                            N += repetidor;
+                            repetidor = 0;
+                            contador++;
+                            ordenadorRow++;
+                        }
                     }
                     coleccionY = 0;
                     coleccionX = 0;
@@ -219,7 +210,7 @@ namespace EstadisticaDescriptiva
                     #endregion
                     break;
                 case 1:
-                    #region Intervalos agrupados
+                    #region Unidimensional agrupado
 
                     for (int i = 0; i < coleccionX; i++)
                     {
@@ -247,7 +238,7 @@ namespace EstadisticaDescriptiva
             switch (calculo)
             {
                 case 0:
-                    #region intervalo simple
+                    #region Unidimensional
                     for (int i = 0; i < mayor; i++)
                     {
                         if (ordenadorRow == 0)
@@ -267,7 +258,7 @@ namespace EstadisticaDescriptiva
                     break;
 
                 case 1:
-                    #region Intervalos agrupados
+                    #region Unidimensional agrupados
                     for (int i = 0; i < coleccionX; i++)
                     {
                         if (i == 0)
@@ -311,22 +302,30 @@ namespace EstadisticaDescriptiva
             {
                 comparacionFrecAcum = Convert.ToDouble(dgvColeccion.Rows[i].Cells[3].Value);
                 PartialMe = comparacionFrecAcum - mediana;
+                if (PartialMe < 0)
+                {
+                    
+                }
                 i++;
             } while (PartialMe < 0);
-            i--;
             switch (calculo)
             {
                 case 0:
-                    #region Simples
+                    #region Unidimensional
 
                     mediana = Convert.ToDouble(dgvColeccion.Rows[i - 1].Cells[1].Value);
+
+                    while ((Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value)) == 0)
+                    {
+                        i++;
+                    }
                     mediana += Convert.ToDouble(dgvColeccion.Rows[i].Cells[1].Value);
                     mediana = mediana / 2;
                     txtMediana.Text = mediana.ToString();
                     #endregion
                     break;
                 case 1:
-                    #region Agrupados
+                    #region Unidimensional Agrupados
 
                     //Luego paso lo que hay en la celda del intervalo a una variable tipo string.
                     Lim = dgvColeccion.Rows[i].Cells[0].Value.ToString();
@@ -362,14 +361,6 @@ namespace EstadisticaDescriptiva
                     break;
                 case 2:
                     break;
-            }
-
-            if (calculo == 0)
-            {
-            }
-            else
-            {
-
             }
         }
         private void Media()
@@ -471,8 +462,11 @@ namespace EstadisticaDescriptiva
                     frecuenciaModa = Convert.ToInt32(dgvColeccion.Rows[i].Cells[2].Value);
                     if (frecuenciaModa == moda)
                     {
-                        datoModa2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);
-                        bimodal = true;
+                        if (datoModa != (Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value)))
+                        {
+                            datoModa2 = Convert.ToInt32(dgvColeccion.Rows[i].Cells[1].Value);
+                            bimodal = true;
+                        }
                     }
                 }
             }
@@ -545,7 +539,6 @@ namespace EstadisticaDescriptiva
             int resAcum = 0;
             int resMulti = 0;
             double resSumatoria = 0;
-            mayor = coleccionX;
             for (int i = 0; i < mayor; i++)
             {
                 for (int j = 1; j < 2; j++)
@@ -722,7 +715,7 @@ namespace EstadisticaDescriptiva
 
         #endregion
 
-        #region Cambiar de DGV (Porque uso 1 para los calculos bidimensionales y otro para los intervalos simples)
+        #region Pasar datos entre DGV
         private void HabilitarDGVcoleccion()
         {
             dgvBidimensional.Visible = false;
@@ -830,14 +823,24 @@ namespace EstadisticaDescriptiva
                     LimpiarDGV();
                     LimpiarTxt();
                     ResetVariables();
-                    btnCalcularOrdenar.Text = "Obtener datos";
+                    btnCalcularOrdenar.Text = "Calcular";
                 }
                 else
                 {
                     OrdenarDatos();
+                    //FrecuenciaAbsoluta();
+                    //FrecuenciaAcumulada();
+                    //Mediana();
+                    //Media();
+                    //Moda();
+                    //DesviacionMedia();
+                    //DesviacionTipica();
+                    //CoefVariacion();
+                    //Covarianza();
+                    //CoeficienteCorrelacion();
                     btnCalcularOrdenar.Text = "Limpiar";
                 }
-            }            
+            }
         }
         private void btnMediana_CheckedChanged(object sender, EventArgs e)
         {            
