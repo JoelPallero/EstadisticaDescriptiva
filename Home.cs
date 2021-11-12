@@ -67,9 +67,6 @@ namespace EstadisticaDescriptiva
                     
 
 
-
-
-
                     //string[] datos = txtDatos.Text.Split(delimitador);
                     //string dato;
                     //int count = 0;

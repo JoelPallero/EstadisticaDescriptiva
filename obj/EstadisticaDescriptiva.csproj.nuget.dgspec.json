@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Desarrollo de Software 3er año\\Matemática Aplicada\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj": {}
+    "G:\\Programacion\\GitHub\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj": {}
   },
   "projects": {
-    "G:\\Desarrollo de Software 3er año\\Matemática Aplicada\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj": {
+    "G:\\Programacion\\GitHub\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Desarrollo de Software 3er año\\Matemática Aplicada\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj",
+        "projectUniqueName": "G:\\Programacion\\GitHub\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj",
         "projectName": "EstadisticaDescriptiva",
-        "projectPath": "G:\\Desarrollo de Software 3er año\\Matemática Aplicada\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj",
+        "projectPath": "G:\\Programacion\\GitHub\\EstadisticaDescriptiva\\EstadisticaDescriptiva.csproj",
         "packagesPath": "C:\\Users\\esteb\\.nuget\\packages\\",
-        "outputPath": "G:\\Desarrollo de Software 3er año\\Matemática Aplicada\\EstadisticaDescriptiva\\obj\\",
+        "outputPath": "G:\\Programacion\\GitHub\\EstadisticaDescriptiva\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
